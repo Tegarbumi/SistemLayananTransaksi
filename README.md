@@ -10,13 +10,9 @@
 4. Import db 'sanss.sql'
 5. Last, Run the app `php artisan serve`
 
-Login Akun
-Admin  
-gmail : admin@gmail.com
-pass : password
-Kasir/pegawai  
-gmail : kasir@gmail.com
-pass : password
+||Login Akun||
+Admin =  gmail : admin@gmail.com pass : password
+Kasir/pegawai =  gmail : kasir@gmail.com pass : password
 
 ## Status
 
