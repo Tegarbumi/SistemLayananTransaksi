@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Mar 11, 2026 at 07:57 AM
+-- Generation Time: Mar 11, 2026 at 03:20 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -45,16 +45,16 @@ CREATE TABLE `alats` (
 INSERT INTO `alats` (`id`, `kategori_id`, `nama_alat`, `deskripsi`, `harga24`, `gambar`, `created_at`, `updated_at`) VALUES
 (33, 1, 'Tenda Borneo', 'Tenda Borneo Kapasitas 1-4 Orang (Double Layer)', 45000, '1773065129-9175a4974f40b4bedb1380088740c9c2.png', '2026-03-09 13:39:54', '2026-03-09 14:05:29'),
 (34, 1, 'Tenda Wildshell', 'Tenda Wildshell Kapasitas 1-4 Orang (Double Layer)', 50000, '1773065750-tenda_jaya_dipa-min_1763450042162.png', '2026-03-09 14:15:50', '2026-03-09 14:15:50'),
-(35, 2, 'Carrier', 'Dilengkapi dengan kompartemen luas dan sistem penyangga yang nyaman untuk membantu mendistribusikan beban saat perjalanan.', 35000, '1773066062-5cb974d4dc04751201e1c4648cf85611.jpeg', '2026-03-09 14:21:02', '2026-03-09 14:21:02'),
-(36, 2, 'Hydropack', 'Tas dengan kantong air (hydration bladder) yang memungkinkan pengguna minum dengan mudah saat beraktivitas outdoor seperti hiking atau bersepeda.', 20000, '1773067212-id-11134207-7r98w-luokxy9jrzih52.jpg', '2026-03-09 14:40:12', '2026-03-09 14:40:12'),
-(37, 2, 'Day Pack', 'Tas tahan air yang digunakan untuk melindungi barang dari air, hujan, atau kelembapan saat kegiatan outdoor seperti camping, hiking, atau rafting.', 25000, '1773067242-images.jpg', '2026-03-09 14:40:42', '2026-03-09 14:40:42'),
-(38, 3, 'Kompor Portebel Mini Windproof', 'Kompor yang mudah dibawa, tidak memakan tempat menggunakan bahan bakar gas kaleng sehingga praktis digunakan di berbagai kondisi.', 15000, '1773067745-KOMPOR-WINDPROOF.png', '2026-03-09 14:48:08', '2026-03-09 14:50:36'),
-(39, 3, 'Kompor Portebel 2in1', 'Kompor Portable 2In1 Untuk Gas Kaleng Dan gas LPG 3KG/12KGUntuk memenuhi kebutuhan rumah tangga, terutama untuk kegiatan memasak Anda.', 25000, '1773068205-beca06e71e8c43ef0468e9981ce131d8.jpg', '2026-03-09 14:56:45', '2026-03-09 14:56:45'),
-(40, 4, 'Tracking Pole', 'Tongkat hiking adjustable height dari Naturehike, pilihan ideal untuk trekking dan camping', 15000, '1773068694-S9b7d706719fa4127b042585bc2059872q.jpg_720x720q80.jpg', '2026-03-09 15:04:54', '2026-03-09 15:04:54'),
+(35, 2, 'Carrier', 'Dengan kompartemen yang luas.', 35000, '1773066062-5cb974d4dc04751201e1c4648cf85611.jpeg', '2026-03-09 14:21:02', '2026-03-11 09:26:34'),
+(36, 2, 'Hydropack', 'Dengan kantong air (hydration bladder).', 20000, '1773067212-id-11134207-7r98w-luokxy9jrzih52.jpg', '2026-03-09 14:40:12', '2026-03-11 09:27:21'),
+(37, 2, 'Day Pack', 'Tas tahan air dengan kompartemen yang luas.', 25000, '1773067242-images.jpg', '2026-03-09 14:40:42', '2026-03-11 09:30:47'),
+(38, 3, 'Kompor Portebel Mini Windproof', 'Kompor praktis yang mudah dibawa kemana - mana.', 15000, '1773067745-KOMPOR-WINDPROOF.png', '2026-03-09 14:48:08', '2026-03-11 09:32:22'),
+(39, 3, 'Kompor Portebel 2in1', 'Kompor Portable 2In1 dengan gas LPG 3KG/12KG.', 25000, '1773068205-beca06e71e8c43ef0468e9981ce131d8.jpg', '2026-03-09 14:56:45', '2026-03-11 09:30:18'),
+(40, 4, 'Tracking Pole', 'Tongkat hiking adjustable untuk treking.', 15000, '1773068694-S9b7d706719fa4127b042585bc2059872q.jpg_720x720q80.jpg', '2026-03-09 15:04:54', '2026-03-11 09:31:52'),
 (41, 4, 'Headlamp', 'Headlamp LED Multifunction Outdoor', 10000, '1773069007-dcaf19a3bb3906b18fb05b4c31da1cb3.jpg', '2026-03-09 15:10:07', '2026-03-09 15:10:07'),
-(42, 5, 'Matras', 'Matras camping portabel dengan tebal 3 mm dan ukuran 200x60 cm, cocok untuk camping, hiking, yoga, dan aktivitas outdoor lainnya.', 10000, '1773069087-097eba2a30b1b724a67dd3585d93984a.jpg_720x720q80.jpg', '2026-03-09 15:11:27', '2026-03-09 15:11:27'),
-(43, 5, 'Sleeping Bag', 'Sleeping Bag Polar Bulu adalah pilihan luar biasa untuk menjaga kenyamanan dan kehangatan Anda saat berkemah atau berpetualang di cuaca dingin.', 20000, '1773069380-Sleeping_Bag_harga_sewa_10.0001.jpg', '2026-03-09 15:16:20', '2026-03-09 15:16:20'),
-(44, 4, 'Sepatu Gunung', 'Dirancang dengan sol anti-selip, fitur pelindung mata kaki (ankle support), dan material breathable atau kedap air untuk keamanan mendaki.', 35000, '1773069542-3a5f4b98-b609-4ab6-92ad-b2d91670ddec.jpg', '2026-03-09 15:19:02', '2026-03-09 15:19:02');
+(42, 5, 'Matras', 'Matras camping portabel dengan tebal 3 mm.', 10000, '1773069087-097eba2a30b1b724a67dd3585d93984a.jpg_720x720q80.jpg', '2026-03-09 15:11:27', '2026-03-11 09:33:41'),
+(43, 5, 'Sleeping Bag', 'Sleeping Bag Polar Bulu yang nyaman.', 20000, '1773069380-Sleeping_Bag_harga_sewa_10.0001.jpg', '2026-03-09 15:16:20', '2026-03-11 09:34:34'),
+(44, 4, 'Sepatu Gunung', 'Dirancang dengan sol anti-selip.', 35000, '1773069542-3a5f4b98-b609-4ab6-92ad-b2d91670ddec.jpg', '2026-03-09 15:19:02', '2026-03-11 09:34:51');
 
 -- --------------------------------------------------------
 
@@ -173,15 +173,14 @@ INSERT INTO `orders` (`id`, `alat_id`, `service_id`, `user_id`, `payment_id`, `d
 (19, 34, NULL, 10, 11, 24, '2026-03-10 09:00:00', '2026-03-11 09:00:00', 50000, 2, '2026-03-09 16:31:45', '2026-03-09 16:33:05'),
 (20, 35, NULL, 1, 12, 24, '2026-03-12 05:40:00', '2026-03-13 05:40:00', 35000, 2, '2026-03-09 16:34:24', '2026-03-09 16:34:39'),
 (21, 36, NULL, 1, 12, 24, '2026-03-12 05:40:00', '2026-03-13 05:40:00', 20000, 2, '2026-03-09 16:34:24', '2026-03-09 16:34:39'),
-(22, 44, NULL, 10, 13, 24, '2026-03-12 05:07:00', '2026-03-13 05:07:00', 35000, 1, '2026-03-10 16:01:51', '2026-03-10 16:01:51'),
-(23, 36, NULL, 10, 14, 24, '2026-03-13 00:03:00', '2026-03-14 00:03:00', 20000, 1, '2026-03-10 16:02:24', '2026-03-10 16:02:24'),
 (24, NULL, 3, 10, 18, NULL, '2026-04-02 23:26:00', '2026-04-02 23:26:00', 100000, 2, '2026-03-10 16:22:33', '2026-03-10 17:00:02'),
 (25, NULL, 2, 10, 18, NULL, '2026-04-02 23:26:00', '2026-04-02 23:26:00', 250000, 2, '2026-03-10 16:22:33', '2026-03-10 17:00:02'),
-(26, 37, NULL, 10, 21, 24, '2026-03-07 23:24:00', '2026-03-08 23:24:00', 25000, 1, '2026-03-10 16:24:21', '2026-03-10 16:24:21'),
-(27, 40, NULL, 10, 22, 24, '2026-03-04 23:33:00', '2026-03-05 23:33:00', 15000, 1, '2026-03-10 16:32:54', '2026-03-10 16:32:54'),
 (28, NULL, 3, 10, 23, NULL, '2026-03-12 23:34:00', '2026-03-12 23:34:00', 100000, 2, '2026-03-10 16:33:13', '2026-03-10 16:44:16'),
 (29, 35, NULL, 10, 24, 24, '2026-03-20 13:46:00', '2026-03-21 13:46:00', 35000, 2, '2026-03-11 06:44:32', '2026-03-11 06:45:58'),
-(30, NULL, 3, 10, 24, NULL, '2026-03-20 13:46:00', '2026-03-20 13:46:00', 100000, 2, '2026-03-11 06:44:32', '2026-03-11 06:45:58');
+(30, NULL, 3, 10, 24, NULL, '2026-03-20 13:46:00', '2026-03-20 13:46:00', 100000, 2, '2026-03-11 06:44:32', '2026-03-11 06:45:58'),
+(31, 34, NULL, 10, 25, 24, '2026-03-27 16:00:00', '2026-03-28 16:00:00', 50000, 2, '2026-03-11 09:00:10', '2026-03-11 09:01:00'),
+(32, 41, NULL, 10, 26, 24, '2026-03-13 19:41:00', '2026-03-14 19:41:00', 10000, 1, '2026-03-11 09:38:36', '2026-03-11 09:38:36'),
+(33, 35, NULL, 10, 26, 24, '2026-03-13 19:41:00', '2026-03-14 19:41:00', 35000, 1, '2026-03-11 09:38:36', '2026-03-11 09:38:36');
 
 -- --------------------------------------------------------
 
@@ -219,18 +218,11 @@ CREATE TABLE `payments` (
 INSERT INTO `payments` (`id`, `no_invoice`, `user_id`, `total`, `bukti`, `status`, `created_at`, `updated_at`) VALUES
 (11, '10/1773073905', 10, 140000, '1773074655-Screenshot 2025-11-21 083959.png', 4, '2026-03-09 16:31:45', '2026-03-10 15:59:47'),
 (12, '1/1773074064', 1, 55000, '1773074475-Screenshot 2025-11-19 103428.png', 4, '2026-03-09 16:34:24', '2026-03-10 16:00:06'),
-(13, '10/1773158511', 10, 350500, NULL, 1, '2026-03-10 16:01:51', '2026-03-10 16:01:51'),
-(14, '10/1773158544', 10, 20000, NULL, 1, '2026-03-10 16:02:24', '2026-03-10 16:02:24'),
-(15, '10/1773158569', 10, 100000, NULL, 1, '2026-03-10 16:02:49', '2026-03-10 16:02:49'),
-(16, '10/1773159635', 10, 350000, NULL, 1, '2026-03-10 16:20:35', '2026-03-10 16:20:35'),
-(17, '10/1773159667', 10, 350000, NULL, 1, '2026-03-10 16:21:07', '2026-03-10 16:21:07'),
 (18, '10/1773159753', 10, 350000, '1773162033-WhatsApp Image 2026-03-10 at 20.57.53.jpeg', 4, '2026-03-10 16:22:33', '2026-03-10 17:01:19'),
-(19, '10/1773159762', 10, 0, NULL, 1, '2026-03-10 16:22:42', '2026-03-10 16:22:42'),
-(20, '10/1773159772', 10, 0, NULL, 1, '2026-03-10 16:22:52', '2026-03-10 16:22:52'),
-(21, '10/1773159861', 10, 25000, NULL, 1, '2026-03-10 16:24:21', '2026-03-10 16:24:21'),
-(22, '10/1773160374', 10, 15000, NULL, 1, '2026-03-10 16:32:54', '2026-03-10 16:32:54'),
 (23, '10/1773160393', 10, 100000, '1773161258-Screenshot 2026-03-10 205348.png', 4, '2026-03-10 16:33:13', '2026-03-10 16:50:00'),
-(24, '10/1773211472', 10, 135000, '1773211612-Screenshot 2025-11-19 103428.png', 4, '2026-03-11 06:44:32', '2026-03-11 06:54:38');
+(24, '10/1773211472', 10, 135000, '1773211612-Screenshot 2025-11-19 103428.png', 4, '2026-03-11 06:44:32', '2026-03-11 06:54:38'),
+(25, '10/1773219610', 10, 50000, '1773219759-Screenshot 2025-11-19 103428.png', 3, '2026-03-11 09:00:10', '2026-03-11 09:03:56'),
+(26, '10/1773221916', 10, 45000, NULL, 1, '2026-03-11 09:38:36', '2026-03-11 09:38:36');
 
 -- --------------------------------------------------------
 
@@ -282,9 +274,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `telepon`, `role`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'adminbumi@gmail.com', NULL, '$2b$12$S2XUkS7s0oZUsdj5B4/L3ew9ICzZQX.R./6EB2./1tJ4ihyBUtx52', NULL, 2, NULL, NULL, NULL),
+(1, 'admin', 'admin@gmail.com', NULL, '$2b$12$S2XUkS7s0oZUsdj5B4/L3ew9ICzZQX.R./6EB2./1tJ4ihyBUtx52', NULL, 2, NULL, NULL, NULL),
 (10, 'Tegar Bumi', 'tegarbumi10@gmail.com', NULL, '$2y$10$elUQ9cDhMZzlyVXY2zalsOXGDG.o7VSPLTiV0dngcLCjY6aPEroqi', '089646756511', 0, NULL, '2026-03-09 15:37:40', '2026-03-09 15:37:40'),
-(11, 'Bumi Admin', 'tegarbumi.9e@gmail.com', NULL, '$2y$10$N1qPkVg8VafUOBJZr06Mi.1W0L4PChHRsKsdL7J41UTq3IVCKtJuS', '089646756511', 1, NULL, '2026-03-10 15:34:38', '2026-03-10 15:35:14');
+(13, 'Kasir Sanss', 'kasir@gmail.com', NULL, '$2y$10$7agxtDOwtx6DAruc8y3toesx.OzwOj2qAgNdeSqucs1Q7sdxQG0Dy', '099545445', 1, NULL, '2026-03-11 09:12:55', '2026-03-11 09:14:24');
 
 --
 -- Indexes for dumped tables
@@ -373,7 +365,7 @@ ALTER TABLE `alats`
 -- AUTO_INCREMENT for table `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -397,13 +389,13 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `services`
@@ -415,7 +407,7 @@ ALTER TABLE `services`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Constraints for dumped tables
