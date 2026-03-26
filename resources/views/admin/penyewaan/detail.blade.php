@@ -89,10 +89,6 @@
 
 <td>
 
-{{-- =========================
-     JIKA ITEM ADALAH ALAT
-   ========================= --}}
-
 @if($item->alat_id)
 
 <a class="link-dark" href="{{ route('home.detail',['id'=>$item->alat->id]) }}">
@@ -108,10 +104,6 @@
 <span class="badge bg-secondary">
 {{ $item->durasi }} Jam
 </span>
-
-{{-- =========================
-     JIKA ITEM ADALAH LAYANAN
-   ========================= --}}
 
 @elseif($item->service_id)
 
@@ -221,6 +213,10 @@ Sudah dikembalikan
 
 <div class="accordion" id="accordionExample">
 
+{{-- =========================
+      BUKTI PEMBAYARAN
+   ========================= --}}
+
 <div class="accordion-item">
 
 <h2 class="accordion-header">
@@ -258,6 +254,38 @@ Acc Pembayaran
 </div>
 </div>
 </div>
+
+
+{{-- =========================
+      JAMINAN KTP
+   ========================= --}}
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseKtp">
+Jaminan KTP
+</button>
+</h2>
+
+<div id="collapseKtp" class="accordion-collapse collapse">
+
+<div class="accordion-body">
+
+@if ($detail->first()->payment->jaminan_ktp == NULL)
+
+Belum upload jaminan KTP
+
+@else
+
+<img src="{{ url('') }}/images/ktp/{{ $detail->first()->payment->jaminan_ktp }}" width="500px">
+
+@endif
+
+</div>
+</div>
+</div>
+
 
 </div>
 

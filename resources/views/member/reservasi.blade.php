@@ -1,77 +1,239 @@
 @extends('member.main')
 @section('container')
+
+{{-- ================= NOTIF ================= --}}
+@if(session('notif'))
+<div class="modal fade" id="notifModal">
+<div class="modal-dialog">
+<div class="modal-content">
+
+<div class="modal-header bg-primary text-white">
+<h5 class="modal-title"><i class="fas fa-bell"></i> Notifikasi</h5>
+</div>
+
+<div class="modal-body text-center">
+<h6>{{ session('notif') }}</h6>
+</div>
+
+<div class="modal-footer">
+<button class="btn btn-primary w-100" data-bs-dismiss="modal">OK</button>
+</div>
+
+</div>
+</div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+    new bootstrap.Modal(document.getElementById('notifModal')).show();
+});
+</script>
+@endif
+
+
+{{-- ================= BONUS ================= --}}
+@if(session('bonus_alat'))
+<div class="modal fade" id="bonusModal">
+<div class="modal-dialog">
+<div class="modal-content">
+
+<div class="modal-header bg-success text-white">
+<h5 class="modal-title">🎁 Selamat!</h5>
+</div>
+
+<div class="modal-body">
+
+<p class="fw-bold text-success">Anda mendapatkan bonus alat:</p>
+
+<ul class="list-group">
+@foreach(session('bonus_alat') as $bonus)
+<li class="list-group-item">
+<i class="fas fa-gift text-success"></i> {{ $bonus }}
+</li>
+@endforeach
+</ul>
+
+</div>
+
+<div class="modal-footer">
+<button class="btn btn-success w-100" data-bs-dismiss="modal">Terima Kasih</button>
+</div>
+
+</div>
+</div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+    new bootstrap.Modal(document.getElementById('bonusModal')).show();
+});
+</script>
+@endif
+
+
 <div class="container">
-    <div class="card shadow mb-4">
-        <div class="card-header">
-            <h5 class="card-title">Reservasi</h5>
-        </div>
-        <div class="card-body" style="overflow: auto">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Tanggal Pengambilan</th>
-                        <th>Total</th>
-                        <th>Detail</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse ($reservasi as $item)
-                        <tr>
-                            <td>@if($item->order->first())
-    {{ date('D, d M Y H:i', strtotime($item->order->first()->starts)) }}
+
+{{-- ================= RESERVASI ================= --}}
+<div class="card shadow rounded-4 mb-4">
+
+<div class="card-header bg-dark text-white d-flex justify-content-between">
+<h5><i class="fas fa-box"></i> Reservasi Aktif</h5>
+</div>
+
+<div class="card-body">
+
+<div class="table-responsive">
+
+<table class="table align-middle">
+
+<thead class="table-light">
+<tr>
+<th><i class="fas fa-calendar"></i> Tanggal</th>
+<th><i class="fas fa-money-bill"></i> Total</th>
+<th><i class="fas fa-cog"></i> Aksi</th>
+</tr>
+</thead>
+
+<tbody>
+
+@forelse ($reservasi as $item)
+
+<tr>
+
+<td>
+@if($item->order->first())
+{{ date('d M Y H:i', strtotime($item->order->first()->starts)) }}
 @else
-    -
+-
 @endif
 </td>
-                            <td>@money($item->total) &nbsp; <span class="badge bg-secondary">{{ $item->order->count() }} Item</span>
-                                @if ($item->status == 1)
-                                    <span class="badge bg-warning">Sedang Ditinjau</span>
-                                @elseif ($item->status == 2)
-                                    <span class="badge bg-info">Belum Bayar</span>
-                                @elseif ($item->status == 3)
-                                    <span class="badge bg-success">Sudah Bayar</span>
-                                @endif
-                            </td>
-                            <td><a class="btn btn-primary" href="{{ route('order.detail',['id' => $item->id]) }}">Detail</a></td>
-                        </tr>
-                    @empty
-                        <tr><td class="text-center" colspan="3">
-                            <p>Anda belum melakukan reservasi apapun.</p>
-                            <a href="{{ route('member.index') }}" class="btn btn-success">Mulai Reservasi Sekarang</a>
-                        </td></tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div class="card shadow">
-        <div class="card-header"><h5 class="card-title">Riwayat</h5></div>
-        <div class="card-body">
-            <table id="dataTable">
-                <thead>
-                    <tr>
-                        <th>Tanggal Pengambilan</th>
-                        <th>Total</th>
-                        <th>Detail</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($riwayat as $r)
-                        <tr>
-                            <td>@if($r->order->first())
-    {{ date('D, d M Y H:i', strtotime($r->order->first()->starts)) }}
-@else
-    -
-@endif</td>
-                            <td>@money($r->total) &nbsp; <span class="badge bg-secondary">{{ $r->order->count() }} Alat</span>
-                                <span class="badge bg-secondary">Selesai</span>
-                            </td>
-                            <td><a class="btn btn-primary" href="{{ route('order.detail',['id' => $r->id]) }}">Detail</a></td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-    </div>
+
+<td>
+
+<b>@money($item->total)</b>
+
+<br>
+
+<span class="badge bg-secondary">
+{{ $item->order->count() }} Item
+</span>
+
+{{-- STATUS --}}
+<br>
+
+@if ($item->status == 1)
+<span class="badge bg-warning">Menunggu</span>
+@elseif ($item->status == 2)
+<span class="badge bg-info">Belum Bayar</span>
+@elseif ($item->status == 3)
+<span class="badge bg-success">Sudah Bayar</span>
+@endif
+
+</td>
+
+<td>
+<a class="btn btn-sm btn-primary rounded-pill"
+href="{{ route('order.detail',['id' => $item->id]) }}">
+<i class="fas fa-eye"></i> Detail
+</a>
+</td>
+
+</tr>
+
+@empty
+
+<tr>
+<td colspan="3" class="text-center py-4">
+
+<i class="fas fa-box-open fa-2x mb-2 text-muted"></i>
+
+<p class="text-muted">Belum ada reservasi</p>
+
+<a href="{{ route('member.index') }}" class="btn btn-success">
+Mulai Sekarang
+</a>
+
+</td>
+</tr>
+
+@endforelse
+
+</tbody>
+</table>
+
 </div>
+</div>
+</div>
+
+
+{{-- ================= RIWAYAT ================= --}}
+<div class="card shadow rounded-4">
+
+<div class="card-header bg-secondary text-white">
+<h5><i class="fas fa-history"></i> Riwayat</h5>
+</div>
+
+<div class="card-body">
+
+<div class="table-responsive">
+
+<table class="table align-middle">
+
+<thead class="table-light">
+<tr>
+<th>Tanggal</th>
+<th>Total</th>
+<th>Aksi</th>
+</tr>
+</thead>
+
+<tbody>
+
+@foreach ($riwayat as $r)
+
+<tr>
+
+<td>
+@if($r->order->first())
+{{ date('d M Y H:i', strtotime($r->order->first()->starts)) }}
+@else
+-
+@endif
+</td>
+
+<td>
+<b>@money($r->total)</b>
+
+<br>
+
+<span class="badge bg-secondary">
+{{ $r->order->count() }} Alat
+</span>
+
+<span class="badge bg-dark">
+Selesai
+</span>
+</td>
+
+<td>
+<a class="btn btn-sm btn-outline-primary rounded-pill"
+href="{{ route('order.detail',['id' => $r->id]) }}">
+<i class="fas fa-eye"></i> Detail
+</a>
+</td>
+
+</tr>
+
+@endforeach
+
+</tbody>
+</table>
+
+</div>
+
+</div>
+</div>
+
+</div>
+
 @endsection

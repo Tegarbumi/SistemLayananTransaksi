@@ -17,21 +17,53 @@
 
 <style>
 
+body{
+    background-color:#f5f7fb;
+}
+
 #keranjang{
-position: fixed;
-top:0;
-right:-400px;
-width:380px;
-height:100%;
-background:white;
-box-shadow:-3px 0 10px rgba(0,0,0,0.2);
-z-index:9999;
-transition:0.3s;
-overflow-y:auto;
+    position: fixed;
+    top:0;
+    right:-400px;
+    width:380px;
+    height:100%;
+    background:white;
+    box-shadow:-3px 0 15px rgba(0,0,0,0.2);
+    z-index:9999;
+    transition:0.3s;
+    overflow-y:auto;
+    border-top-left-radius:15px;
+    border-bottom-left-radius:15px;
 }
 
 #keranjang.active{
-right:0;
+    right:0;
+}
+
+/* Navbar modern */
+.navbar{
+    box-shadow:0 2px 10px rgba(0,0,0,0.1);
+}
+
+.navbar-brand{
+    font-weight:bold;
+}
+
+/* Badge lebih modern */
+.badge{
+    font-size:12px;
+    padding:6px 8px;
+    border-radius:20px;
+}
+
+/* Container */
+.main-content{
+    margin-top:20px;
+}
+
+/* Hover efek */
+.nav-link:hover{
+    opacity:0.8;
 }
 
 </style>
@@ -47,7 +79,7 @@ right:0;
 <div class="container-fluid">
 
 <a class="navbar-brand">
-Hai Sobat Sanss
+<i class="fas fa-mountain"></i> Sans Adventure
 </a>
 
 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
@@ -56,100 +88,75 @@ Hai Sobat Sanss
 
 <div class="collapse navbar-collapse" id="navbarMenu">
 
-
-<ul class="navbar-nav ms-auto">
+<ul class="navbar-nav ms-auto align-items-center">
 
 <li class="nav-item">
-
-<a class="nav-link {{ Route::is('member.index') ? 'active' : '' }}"
+<a class="nav-link {{ Route::is('member.index') ? 'active fw-bold' : '' }}"
 href="{{ route('member.index') }}">
-
-Explore
-
+<i class="fas fa-compass"></i> Explore
 </a>
-
 </li>
 
 <li class="nav-item">
-
 <a class="nav-link"
 href="javascript:void(0)"
 onclick="toggleCart()">
 
-<i class="fas fa-shopping-cart"></i>
-Keranjang
+<i class="fas fa-shopping-cart"></i> Keranjang
 
-<span class="badge bg-secondary">
-
+<span class="badge bg-danger">
 {{ Auth::user()->cart->count() }}
-
 </span>
 
 </a>
-
 </li>
 
 <li class="nav-item">
-
-<a class="nav-link {{ Route::is('order.show') ? 'active' : '' }}"
+<a class="nav-link {{ Route::is('order.show') ? 'active fw-bold' : '' }}"
 href="{{ route('order.show') }}">
 
-Reservasi
+<i class="fas fa-box"></i> Reservasi
 
-<span class="badge bg-secondary">
-
+<span class="badge bg-primary">
 {{ Auth::user()->payment->count() }}
-
 </span>
 
 </a>
-
 </li>
 
 <li class="nav-item">
-
-<a class="nav-link {{ Route::is('member.kalender') ? 'active' : '' }}"
+<a class="nav-link {{ Route::is('member.kalender') ? 'active fw-bold' : '' }}"
 href="{{ route('member.kalender') }}">
-
-Kalender
-
+<i class="fas fa-calendar-alt"></i> Kalender
 </a>
-
 </li>
 
+<!-- USER DROPDOWN -->
+<li class="nav-item dropdown ms-3">
 
-<li class="nav-item dropdown">
-
-<a class="nav-link dropdown-toggle"
+<a class="nav-link dropdown-toggle d-flex align-items-center"
 href="#"
 data-bs-toggle="dropdown">
 
+<i class="fas fa-user-circle me-2"></i>
 {{ Auth::user()->name }}
 
 </a>
 
-<ul class="dropdown-menu dropdown-menu-end">
+<ul class="dropdown-menu dropdown-menu-end shadow">
 
 <li>
-
-<a class="dropdown-item"
-href="{{ route('akun.pengaturan') }}">
-
-Pengaturan Akun
-
+<a class="dropdown-item" href="{{ route('akun.pengaturan') }}">
+<i class="fas fa-cog"></i> Pengaturan Akun
 </a>
-
 </li>
 
+<li><hr class="dropdown-divider"></li>
+
 <li>
-
-<a class="dropdown-item"
-href="{{ route('logout') }}">
-
-Logout
-
+<a class="dropdown-item text-danger" href="{{ route('logout') }}">
+<i class="fas fa-sign-out-alt"></i> Logout
 </a>
-
 </li>
 
 </ul>
@@ -165,7 +172,8 @@ Logout
 </nav>
 
 
-<div class="container-fluid px-4 mt-4">
+<!-- CONTENT -->
+<div class="container-fluid px-4 main-content">
 
 @yield('container')
 
@@ -175,11 +183,8 @@ Logout
 <script>
 
 function toggleCart(){
-
-let cart = document.getElementById("keranjang");
-
-cart.classList.toggle("active");
-
+    let cart = document.getElementById("keranjang");
+    cart.classList.toggle("active");
 }
 
 </script>

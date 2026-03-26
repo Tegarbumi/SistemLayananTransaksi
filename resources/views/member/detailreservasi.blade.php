@@ -3,19 +3,23 @@
 
 <div class="container">
 
-<div class="card">
+<div class="card shadow rounded-4">
 
-<div class="card-header">
-<div class="d-flex justify-content-between">
+{{-- HEADER --}}
+<div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
 
-<a href="{{ route('order.show') }}">
+<a href="{{ route('order.show') }}" class="text-white">
 <i class="fas fa-arrow-left"></i>
 </a>
 
-<b>Detail Reservasi</b>
+<h5 class="mb-0">
+<i class="fas fa-file-alt"></i> Detail Reservasi
+</h5>
+
+<div>
 
 @if ($paymentStatus == 1)
-<span class="badge bg-warning">Sedang Ditinjau</span>
+<span class="badge bg-warning">Menunggu</span>
 @elseif ($paymentStatus == 2)
 <span class="badge bg-info">Belum Bayar</span>
 @elseif ($paymentStatus == 3)
@@ -25,37 +29,46 @@
 @endif
 
 </div>
+
 </div>
 
 
-<div class="card-body" style="overflow:auto">
+<div class="card-body">
 
+{{-- ALERT --}}
 @if ($paymentStatus == 3)
-<div class="alert alert-success">
-Silakan melakukan pengambilan alat pada tanggal yang tertera
+<div class="alert alert-success text-center">
+<i class="fas fa-check-circle"></i>
+Silakan ambil alat sesuai jadwal
 </div>
 @endif
 
 
-<b>Tanggal Pengambilan :</b>
-{{ date('d M Y H:i', strtotime($detail->first()->starts)) }}
-<br>
+{{-- INFO --}}
+<div class="mb-3">
 
-<b>No. Invoice :</b>
-{{ $detail->first()->payment->no_invoice }}
+<p><b><i class="fas fa-calendar"></i> Tanggal Pengambilan:</b><br>
+{{ date('d M Y H:i', strtotime($detail->first()->starts)) }}</p>
+
+<p><b><i class="fas fa-receipt"></i> No. Invoice:</b><br>
+{{ $detail->first()->payment->no_invoice }}</p>
+
+</div>
 
 
-<table class="table">
+{{-- TABLE --}}
+<div class="table-responsive">
 
-<thead>
+<table class="table align-middle">
+
+<thead class="table-light">
 <tr>
 <th>No</th>
 <th>Item</th>
 <th>Pengembalian</th>
-<th>Harga</th>
+<th class="text-end">Harga</th>
 </tr>
 </thead>
-
 
 <tbody>
 
@@ -63,26 +76,20 @@ Silakan melakukan pengambilan alat pada tanggal yang tertera
 
 <tr class="{{ ($item->status == 3) ? 'table-danger' : '' }}">
 
-<td>
-{{ $loop->iteration }}
-</td>
-
+<td>{{ $loop->iteration }}</td>
 
 <td>
 
-{{-- =========================
-     JIKA ITEM ADALAH ALAT
-   ========================= --}}
-
+{{-- ALAT --}}
 @if($item->alat_id)
 
-<a class="link-dark" href="{{ route('home.detail',['id'=>$item->alat->id]) }}">
+<a class="fw-bold text-dark" href="{{ route('home.detail',['id'=>$item->alat->id]) }}">
 {{ $item->alat->nama_alat }}
 </a>
 
 <br>
 
-<span class="badge bg-warning">
+<span class="badge bg-warning text-dark">
 {{ $item->alat->category->nama_kategori }}
 </span>
 
@@ -90,11 +97,14 @@ Silakan melakukan pengambilan alat pada tanggal yang tertera
 {{ $item->durasi }} Jam
 </span>
 
+{{-- BONUS --}}
+@if($item->harga == 0)
+<span class="badge bg-success">
+🎁 Bonus
+</span>
+@endif
 
-{{-- =========================
-     JIKA ITEM ADALAH LAYANAN
-   ========================= --}}
-
+{{-- LAYANAN --}}
 @elseif($item->service_id)
 
 <b>{{ $item->service->nama_layanan }}</b>
@@ -108,6 +118,7 @@ Layanan
 @endif
 
 
+{{-- STATUS --}}
 @if ($item->status === 3)
 <span class="badge bg-danger">Ditolak</span>
 @elseif ($item->status === 2)
@@ -128,7 +139,7 @@ Layanan
 </td>
 
 
-<td style="text-align:right">
+<td class="text-end">
 <b>@money($item->harga)</b>
 </td>
 
@@ -137,14 +148,12 @@ Layanan
 @endforeach
 
 
-<tr>
-<td colspan="2"></td>
-
-<td style="text-align:right">
+{{-- TOTAL --}}
+<tr class="table-light">
+<td colspan="3" class="text-end">
 <b>Total</b>
 </td>
-
-<td style="text-align:right">
+<td class="text-end">
 <b>@money($total)</b>
 </td>
 </tr>
@@ -152,21 +161,21 @@ Layanan
 </tbody>
 </table>
 
+</div>
 
 
+{{-- CANCEL --}}
 @if ($paymentStatus == 1)
 
 <form action="{{ route('cancel',['id'=>$detail->first()->payment->id]) }}" method="POST">
 @method('DELETE')
 @csrf
 
-<button
-type="submit"
-onclick="return confirm('Anda yakin akan membatalkan reservasi?');"
-class="btn btn-danger"
-style="float:right">
+<button type="submit"
+onclick="return confirm('Batalkan reservasi ini?');"
+class="btn btn-danger w-100 mt-2">
 
-Cancel Reservasi
+<i class="fas fa-times"></i> Cancel Reservasi
 
 </button>
 
@@ -175,33 +184,31 @@ Cancel Reservasi
 @endif
 
 
-
+{{-- PEMBAYARAN --}}
 @if ($paymentStatus == 2)
 
-<div class="alert {{ ($detail->first()->payment->bukti == NULL) ? 'alert-primary' : 'alert-success'}}">
+<div class="alert {{ ($detail->first()->payment->bukti == NULL) ? 'alert-primary' : 'alert-success'}} mt-3">
 
 @if ($detail->first()->payment->bukti == NULL)
 
-Reservasi anda telah disetujui, silakan bayar sesuai dengan total yang tertera dengan cara transfer ke
+<p>Silakan lakukan pembayaran ke:</p>
 
-<h4><b>BCA xxxxxxxxxx</b></h4>
-<h6><b>a.n Sanss Adventure</b></h6>
+<h5><b>BCA xxxxxxxxxx</b></h5>
+<p>a.n Sanss Adventure</p>
 
-lalu upload bukti bayar dengan menekan tombol dibawah.
+<p>Upload bukti pembayaran di bawah ini:</p>
 
 @else
 
-Bukti pembayaran telah di upload, silakan tunggu konfirmasi dari Admin
+<p><i class="fas fa-check"></i> Bukti sudah diupload, tunggu konfirmasi admin</p>
 
 @endif
 
-
-<button type="button"
-class="btn btn-success mt-2"
+<button class="btn btn-success w-100 mt-2"
 data-bs-toggle="modal"
 data-bs-target="#bayarModal">
 
-Bukti Pembayaran
+<i class="fas fa-upload"></i> Upload Bukti
 
 </button>
 
@@ -210,12 +217,22 @@ Bukti Pembayaran
 @endif
 
 
-
+{{-- BUKTI --}}
 @if ($paymentStatus == 3 || $paymentStatus == 4)
 
-<h5>Bukti Pembayaran :</h5>
+<h5 class="mt-4"><i class="fas fa-image"></i> Bukti Pembayaran</h5>
 
-<img src="{{ url('') }}/images/evidence/{{ $bukti }}" width="500px">
+<img src="{{ url('') }}/images/evidence/{{ $bukti }}"
+class="img-fluid rounded shadow mb-3">
+
+@if($detail->first()->payment->jaminan_ktp)
+
+<h5><i class="fas fa-id-card"></i> Jaminan KTP</h5>
+
+<img src="{{ url('') }}/images/ktp/{{ $detail->first()->payment->jaminan_ktp }}"
+class="img-fluid rounded shadow">
+
+@endif
 
 @endif
 
@@ -225,27 +242,15 @@ Bukti Pembayaran
 </div>
 
 
-
-{{-- =========================
-      MODAL UPLOAD BUKTI
-   ========================= --}}
-
-<div class="modal fade" id="bayarModal" tabindex="-1">
-
+{{-- MODAL --}}
+<div class="modal fade" id="bayarModal">
 <div class="modal-dialog">
-
 <div class="modal-content">
 
 <div class="modal-header">
-
-<h5 class="modal-title">
-Upload Bukti Bayar
-</h5>
-
+<h5 class="modal-title"><i class="fas fa-upload"></i> Upload Bukti</h5>
 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-
 </div>
-
 
 <div class="modal-body">
 
@@ -256,23 +261,17 @@ enctype="multipart/form-data">
 @method('PATCH')
 @csrf
 
-<input type="file"
-name="bukti"
-class="form-control mb-2"
-required>
+<label>Bukti Pembayaran</label>
+<input type="file" name="bukti" class="form-control mb-3" required>
 
-<button type="submit" class="btn btn-success">
+<label>Jaminan KTP</label>
+<input type="file" name="jaminan_ktp" class="form-control mb-3" required>
+
+<button class="btn btn-success w-100">
 Upload
 </button>
 
 </form>
-
-
-<h5 class="mt-3">Bukti Bayar</h5>
-
-@if($bukti)
-<img src="{{ url('') }}/images/evidence/{{ $bukti }}" width="500px">
-@endif
 
 </div>
 

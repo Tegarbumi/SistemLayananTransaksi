@@ -7,6 +7,7 @@ use App\Mail\OrderPaid;
 use App\Models\Carts;
 use App\Models\Order;
 use App\Models\Payment;
+use App\Models\Alat;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -43,119 +44,165 @@ class OrderController extends Controller
 
     public function create(Request $request) {
 
-    $cart = Carts::where('user_id', Auth::id())->get();
+        $cart = Carts::where('user_id', Auth::id())->get();
 
-    $pembayaran = new Payment();
-    $pembayaran->no_invoice = Auth::id()."/".Carbon::now()->timestamp;
-    $pembayaran->user_id = Auth::id();
-    $pembayaran->total = $cart->sum('harga');
-    $pembayaran->save();
+        $pembayaran = new Payment();
+        $pembayaran->no_invoice = Auth::id()."/".Carbon::now()->timestamp;
+        $pembayaran->user_id = Auth::id();
+        $pembayaran->total = $cart->sum('harga');
+        $pembayaran->save();
 
-    $paymentId = $pembayaran->id;
+        $paymentId = $pembayaran->id;
+        $cartAlat = [];
 
-    foreach($cart as $c) {
+        foreach($cart as $c) {
 
-        $start = date('Y-m-d H:i', strtotime($request['start_date']." ".$request['start_time']));
+            $start = date('Y-m-d H:i', strtotime($request['start_date']." ".$request['start_time']));
 
-        // jika alat → hitung durasi
-        if($c->alat_id) {
+            if($c->alat_id) {
+                $end = date('Y-m-d H:i', strtotime($start."+".$c->durasi." hours"));
+                $cartAlat[] = $c->alat_id;
+            } else {
+                $end = $start;
+            }
 
-            $end = date('Y-m-d H:i', strtotime($start."+".$c->durasi." hours"));
+            Order::create([
+                'alat_id' => $c->alat_id,
+                'service_id' => $c->service_id,
+                'user_id' => $c->user_id,
+                'payment_id' => $paymentId,
+                'durasi' => $c->durasi,
+                'starts' => $start,
+                'ends' => $end,
+                'harga' => $c->harga,
+            ]);
 
-        } 
-        // jika layanan → tidak pakai durasi
-        else {
-
-            $end = $start;
-
+            $c->delete();
         }
 
-        Order::create([
-            'alat_id' => $c->alat_id,
-            'service_id' => $c->service_id,
-            'user_id' => $c->user_id,
-            'payment_id' => $paymentId,
-            'durasi' => $c->durasi,
-            'starts' => $start,
-            'ends' => $end,
-            'harga' => $c->harga,
-        ]);
+        // ================= BONUS =================
+        $bonusJumlah = floor($pembayaran->total / 200000);
+        $bonusNama = [];
 
-        $c->delete();
-    }
+        if($bonusJumlah > 0){
 
-    return redirect(route('order.show'));
-}
+            $availableAlat = Alat::whereNotIn('id',$cartAlat)
+                                ->inRandomOrder()
+                                ->take($bonusJumlah)
+                                ->get();
 
-    public function destroy($id) {
-        $payment = Payment::find($id);
+            foreach($availableAlat as $bonusAlat){
 
-        $payment->delete();
+                Order::create([
+                    'alat_id' => $bonusAlat->id,
+                    'service_id' => null,
+                    'user_id' => Auth::id(),
+                    'payment_id' => $paymentId,
+                    'durasi' => 0,
+                    'starts' => $start,
+                    'ends' => $start,
+                    'harga' => 0,
+                ]);
+
+                $bonusNama[] = $bonusAlat->nama_alat;
+            }
+
+            session()->flash('bonus_alat', $bonusNama);
+        }
 
         return redirect(route('order.show'));
     }
 
+    public function destroy($id) {
+        Payment::find($id)->delete();
+        return redirect(route('order.show'));
+    }
+
+    // ================= ACC =================
     public function acc(Request $request, $paymentId) {
-        $orders = $request->order;
-        $payment = new Payment();
 
-        foreach($orders as $o) {
-            Order::where('id', $o)->update(['status' => 2]);
+        $orders = $request->order ?? [];
+        $payment = Payment::find($paymentId);
+
+        if(count($orders) > 0){
+            foreach($orders as $o) {
+                Order::where('id', $o)->update(['status' => 2]);
+            }
         }
-        $payment->find($paymentId)->update(['status' => 2]);
-        Order::where('payment_id', $paymentId)->where('status', 1)->update(['status' => 3]);
-        $payment->where('id', $paymentId)->update(['total' => Order::where('payment_id', $paymentId)->where('status', 2)->sum('harga')]);
 
-        Mail::to($payment->find($paymentId)->user->email)->send(new OrderAccepted($payment->find($paymentId)));
+        Order::where('payment_id', $paymentId)
+            ->where('status', 1)
+            ->whereNotIn('id', $orders)
+            ->update(['status' => 3]);
+
+        $payment->update(['status' => 2]);
+
+        $payment->update([
+            'total' => Order::where('payment_id', $paymentId)
+                ->where('status', 2)
+                ->sum('harga')
+        ]);
+
+        // NOTIF POPUP
+        session()->flash('notif', 'Reservasi kamu telah disetujui!');
+
+        // EMAIL AMAN
+        try {
+            Mail::to($payment->user->email)->send(new OrderAccepted($payment));
+        } catch (\Exception $e) {}
 
         return back();
     }
 
-    public function bayar(Request $request, $id) {
+    public function bayar(Request $request, $id)
+    {
         $this->validate($request, [
-            'bukti' => "image|mimes:png,jpg,svg,jpeg,gif|max:5000"
+            'bukti' => "required|image|mimes:png,jpg,jpeg|max:5000",
+            'jaminan_ktp' => "required|image|mimes:png,jpg,jpeg|max:5000"
         ]);
 
         $payment = Payment::find($id);
-        if($request->hasFile('bukti')) {
-            $gambar = $request->file('bukti');
-            $filename = time().'-'.$gambar->getClientOriginalName();
-            $gambar->move(public_path('images/evidence'), $filename);
-        }
+
+        $filename = time().'_bukti_'.$request->file('bukti')->getClientOriginalName();
+        $request->file('bukti')->move(public_path('images/evidence'), $filename);
+
+        $ktpname = time().'_ktp_'.$request->file('jaminan_ktp')->getClientOriginalName();
+        $request->file('jaminan_ktp')->move(public_path('images/ktp'), $ktpname);
+
         $payment->update([
-            'bukti' => $filename
+            'bukti' => $filename,
+            'jaminan_ktp' => $ktpname
         ]);
 
-        return back();
+        return back()->with('success','Upload berhasil');
     }
 
     public function accbayar($id) {
+
         $payment = Payment::find($id);
+        $payment->update(['status' => 3]);
 
-        $payment->update([
-            'status' => 3
-        ]);
+        // NOTIF POPUP
+        session()->flash('notif', 'Pembayaran kamu telah dikonfirmasi!');
 
-        Mail::to($payment->user->email)->send(new OrderPaid($payment));
+        try {
+            Mail::to($payment->user->email)->send(new OrderPaid($payment));
+        } catch (\Exception $e) {}
+
         return back();
     }
 
     public function alatkembali($id) {
-        Payment::find($id)->update([
-            'status' => 4
-        ]);
-
+        Payment::find($id)->update(['status' => 4]);
         return back();
     }
 
     public function cetak() {
-        $dari = request('dari');
-        $sampai = request('sampai');
+
         $laporan = DB::table('orders')
             ->join('payments','payments.id','orders.payment_id')
             ->join('alats','alats.id','orders.alat_id')
             ->join('users','users.id','orders.user_id')
-            ->whereBetween('orders.created_at',[$dari, $sampai])
             ->where('orders.status',2)
             ->where('payments.status','>',2)
             ->get(['*','orders.created_at AS tanggal']);
