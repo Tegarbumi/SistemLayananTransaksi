@@ -31,46 +31,6 @@ document.addEventListener("DOMContentLoaded", function(){
 @endif
 
 
-{{-- ================= BONUS ================= --}}
-@if(session('bonus_alat'))
-<div class="modal fade" id="bonusModal">
-<div class="modal-dialog">
-<div class="modal-content">
-
-<div class="modal-header bg-success text-white">
-<h5 class="modal-title">🎁 Selamat!</h5>
-</div>
-
-<div class="modal-body">
-
-<p class="fw-bold text-success">Anda mendapatkan bonus alat:</p>
-
-<ul class="list-group">
-@foreach(session('bonus_alat') as $bonus)
-<li class="list-group-item">
-<i class="fas fa-gift text-success"></i> {{ $bonus }}
-</li>
-@endforeach
-</ul>
-
-</div>
-
-<div class="modal-footer">
-<button class="btn btn-success w-100" data-bs-dismiss="modal">Terima Kasih</button>
-</div>
-
-</div>
-</div>
-</div>
-
-<script>
-document.addEventListener("DOMContentLoaded", function(){
-    new bootstrap.Modal(document.getElementById('bonusModal')).show();
-});
-</script>
-@endif
-
-
 <div class="container">
 
 {{-- ================= RESERVASI ================= --}}
@@ -88,9 +48,9 @@ document.addEventListener("DOMContentLoaded", function(){
 
 <thead class="table-light">
 <tr>
-<th><i class="fas fa-calendar"></i> Tanggal</th>
-<th><i class="fas fa-money-bill"></i> Total</th>
-<th><i class="fas fa-cog"></i> Aksi</th>
+<th>Tanggal</th>
+<th>Total</th>
+<th>Aksi</th>
 </tr>
 </thead>
 
@@ -98,7 +58,11 @@ document.addEventListener("DOMContentLoaded", function(){
 
 @forelse ($reservasi as $item)
 
-<tr>
+@php
+    $hasDenda = $item->dendas->count() > 0;
+@endphp
+
+<tr class="{{ $hasDenda ? 'table-danger' : '' }}">
 
 <td>
 @if($item->order->first())
@@ -118,15 +82,25 @@ document.addEventListener("DOMContentLoaded", function(){
 {{ $item->order->count() }} Item
 </span>
 
-{{-- STATUS --}}
 <br>
 
+{{-- STATUS --}}
 @if ($item->status == 1)
 <span class="badge bg-warning">Menunggu</span>
 @elseif ($item->status == 2)
 <span class="badge bg-info">Belum Bayar</span>
 @elseif ($item->status == 3)
 <span class="badge bg-success">Sudah Bayar</span>
+@elseif ($item->status == 4)
+<span class="badge bg-danger">Denda</span>
+@endif
+
+{{-- 🔥 PESAN DENDA --}}
+@if($hasDenda && $item->status == 4)
+<div class="alert alert-danger mt-2 p-2">
+<i class="fas fa-exclamation-triangle"></i>
+Anda dikenakan denda, silahkan lakukan pembayaran agar jaminan bisa dikembalikan
+</div>
 @endif
 
 </td>

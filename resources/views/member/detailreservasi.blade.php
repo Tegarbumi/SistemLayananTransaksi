@@ -25,6 +25,8 @@
 @elseif ($paymentStatus == 3)
 <span class="badge bg-success">Sudah Bayar</span>
 @elseif ($paymentStatus == 4)
+<span class="badge bg-danger">Menunggu Pembayaran Denda</span>
+@elseif ($paymentStatus == 5)
 <span class="badge bg-secondary">Selesai</span>
 @endif
 
@@ -40,6 +42,20 @@
 <div class="alert alert-success text-center">
 <i class="fas fa-check-circle"></i>
 Silakan ambil alat sesuai jadwal
+</div>
+@endif
+
+@if ($paymentStatus == 4)
+<div class="alert alert-danger text-center">
+<i class="fas fa-exclamation-triangle"></i>
+Anda memiliki denda, silakan lakukan pembayaran
+</div>
+@endif
+
+@if ($paymentStatus == 5)
+<div class="alert alert-secondary text-center">
+<i class="fas fa-check"></i>
+Transaksi selesai
 </div>
 @endif
 
@@ -80,7 +96,6 @@ Silakan ambil alat sesuai jadwal
 
 <td>
 
-{{-- ALAT --}}
 @if($item->alat_id)
 
 <a class="fw-bold text-dark" href="{{ route('home.detail',['id'=>$item->alat->id]) }}">
@@ -97,28 +112,17 @@ Silakan ambil alat sesuai jadwal
 {{ $item->durasi }} Jam
 </span>
 
-{{-- BONUS --}}
 @if($item->harga == 0)
-<span class="badge bg-success">
-🎁 Bonus
-</span>
+<span class="badge bg-success">🎁 Bonus</span>
 @endif
 
-{{-- LAYANAN --}}
 @elseif($item->service_id)
 
-<b>{{ $item->service->nama_layanan }}</b>
-
-<br>
-
-<span class="badge bg-info">
-Layanan
-</span>
+<b>{{ $item->service->nama_layanan }}</b><br>
+<span class="badge bg-info">Layanan</span>
 
 @endif
 
-
-{{-- STATUS --}}
 @if ($item->status === 3)
 <span class="badge bg-danger">Ditolak</span>
 @elseif ($item->status === 2)
@@ -127,17 +131,9 @@ Layanan
 
 </td>
 
-
 <td>
-
-@if($item->ends)
-{{ date('d M Y H:i', strtotime($item->ends)) }}
-@else
--
-@endif
-
+{{ $item->ends ? date('d M Y H:i', strtotime($item->ends)) : '-' }}
 </td>
-
 
 <td class="text-end">
 <b>@money($item->harga)</b>
@@ -147,14 +143,35 @@ Layanan
 
 @endforeach
 
-
-{{-- TOTAL --}}
+{{-- TOTAL SEWA --}}
 <tr class="table-light">
 <td colspan="3" class="text-end">
-<b>Total</b>
+<b>Total Sewa</b>
 </td>
 <td class="text-end">
 <b>@money($total)</b>
+</td>
+</tr>
+
+{{-- TOTAL DENDA --}}
+@if(isset($totalDenda) && $totalDenda > 0)
+<tr class="table-danger">
+<td colspan="3" class="text-end">
+<b>Total Denda</b>
+</td>
+<td class="text-end">
+<b>@money($totalDenda)</b>
+</td>
+</tr>
+@endif
+
+{{-- GRAND TOTAL --}}
+<tr class="table-dark text-white">
+<td colspan="3" class="text-end">
+<b>Grand Total</b>
+</td>
+<td class="text-end">
+<b>@money($grandTotal)</b>
 </td>
 </tr>
 
@@ -166,7 +183,6 @@ Layanan
 
 {{-- CANCEL --}}
 @if ($paymentStatus == 1)
-
 <form action="{{ route('cancel',['id'=>$detail->first()->payment->id]) }}" method="POST">
 @method('DELETE')
 @csrf
@@ -178,13 +194,11 @@ class="btn btn-danger w-100 mt-2">
 <i class="fas fa-times"></i> Cancel Reservasi
 
 </button>
-
 </form>
-
 @endif
 
 
-{{-- PEMBAYARAN --}}
+{{-- PEMBAYARAN AWAL --}}
 @if ($paymentStatus == 2)
 
 <div class="alert {{ ($detail->first()->payment->bukti == NULL) ? 'alert-primary' : 'alert-success'}} mt-3">
@@ -192,23 +206,18 @@ class="btn btn-danger w-100 mt-2">
 @if ($detail->first()->payment->bukti == NULL)
 
 <p>Silakan lakukan pembayaran ke:</p>
-
 <h5><b>BCA xxxxxxxxxx</b></h5>
 <p>a.n Sanss Adventure</p>
 
-<p>Upload bukti pembayaran di bawah ini:</p>
-
 @else
-
 <p><i class="fas fa-check"></i> Bukti sudah diupload, tunggu konfirmasi admin</p>
-
 @endif
 
 <button class="btn btn-success w-100 mt-2"
 data-bs-toggle="modal"
 data-bs-target="#bayarModal">
 
-<i class="fas fa-upload"></i> Upload Bukti
+<i class="fas fa-upload"></i> Upload Bukti & KTP
 
 </button>
 
@@ -217,19 +226,71 @@ data-bs-target="#bayarModal">
 @endif
 
 
-{{-- BUKTI --}}
-@if ($paymentStatus == 3 || $paymentStatus == 4)
+{{-- BUKTI PEMBAYARAN AWAL --}}
+@if ($paymentStatus >= 3)
 
 <h5 class="mt-4"><i class="fas fa-image"></i> Bukti Pembayaran</h5>
 
-<img src="{{ url('') }}/images/evidence/{{ $bukti }}"
+<img src="{{ url('images/evidence/'.$bukti) }}"
 class="img-fluid rounded shadow mb-3">
 
 @if($detail->first()->payment->jaminan_ktp)
-
 <h5><i class="fas fa-id-card"></i> Jaminan KTP</h5>
 
-<img src="{{ url('') }}/images/ktp/{{ $detail->first()->payment->jaminan_ktp }}"
+<img src="{{ url('images/ktp/'.$detail->first()->payment->jaminan_ktp) }}"
+class="img-fluid rounded shadow">
+@endif
+
+@endif
+
+
+{{-- ================= DENDA ================= --}}
+@if($paymentStatus == 4)
+
+<h5 class="mt-4 text-danger"><i class="fas fa-exclamation-circle"></i> Denda</h5>
+
+<table class="table table-bordered">
+<tr>
+<th>Jenis</th>
+<th>Jumlah</th>
+<th>Keterangan</th>
+</tr>
+
+@foreach($detail->first()->payment->dendas as $denda)
+<tr>
+<td>{{ ucfirst($denda->jenis_denda) }}</td>
+<td>@money($denda->jumlah)</td>
+<td>{{ $denda->keterangan }}</td>
+</tr>
+@endforeach
+
+</table>
+
+{{-- UPLOAD DENDA --}}
+@if(!$detail->first()->payment->bukti_denda)
+
+<form action="{{ route('bayar.denda',['id'=>$paymentId]) }}" method="POST" enctype="multipart/form-data">
+@csrf
+@method('PATCH')
+
+<div class="mb-3">
+<label>Upload Bukti Pembayaran Denda</label>
+<input type="file" name="bukti_denda" class="form-control" required>
+</div>
+
+<button class="btn btn-danger w-100">
+Bayar Denda
+</button>
+
+</form>
+
+@else
+
+<div class="alert alert-warning mt-3">
+Menunggu konfirmasi admin
+</div>
+
+<img src="{{ url('images/denda/'.$detail->first()->payment->bukti_denda) }}"
 class="img-fluid rounded shadow">
 
 @endif
@@ -242,7 +303,7 @@ class="img-fluid rounded shadow">
 </div>
 
 
-{{-- MODAL --}}
+{{-- MODAL PEMBAYARAN AWAL --}}
 <div class="modal fade" id="bayarModal">
 <div class="modal-dialog">
 <div class="modal-content">

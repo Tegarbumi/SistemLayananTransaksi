@@ -34,4 +34,10 @@ class Order extends Model
     {
         return $this->belongsTo(Payment::class,'payment_id');
     }
+    // denda
+    public function dendas()
+{
+    return $this->hasOne(Denda::class);
 }
+}
+

@@ -524,6 +524,7 @@ class ComposerStaticInitcb09fd425bff2d92c8a2e53e989b2c69
         'App\\Models\\Alat' => __DIR__ . '/../..' . '/app/Models/Alat.php',
         'App\\Models\\Carts' => __DIR__ . '/../..' . '/app/Models/Carts.php',
         'App\\Models\\Category' => __DIR__ . '/../..' . '/app/Models/Category.php',
+        'App\\Models\\Denda' => __DIR__ . '/../..' . '/app/Models/Denda.php',
         'App\\Models\\Order' => __DIR__ . '/../..' . '/app/Models/Order.php',
         'App\\Models\\Payment' => __DIR__ . '/../..' . '/app/Models/Payment.php',
         'App\\Models\\Service' => __DIR__ . '/../..' . '/app/Models/Service.php',

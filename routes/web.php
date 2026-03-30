@@ -150,8 +150,10 @@ Route::middleware(['auth','admin'])->group(function () {
         Route::patch('/accbayar/{id}',[OrderController::class,'accbayar'])->name('accbayar');
 
         Route::patch('/selesai/{id}',[OrderController::class,'alatkembali'])->name('selesai');
+        Route::patch('/acc-denda/{id}', [OrderController::class,'accDenda'])->name('acc.denda');
 
         Route::get('/laporan/cetak',[OrderController::class,'cetak'])->name('cetak');
+        Route::patch('/admin/reject/{paymentId}', [OrderController::class, 'reject'])->name('reject');
 
 
         /*
@@ -177,6 +179,13 @@ Route::middleware(['auth','admin'])->group(function () {
 
         Route::patch('/user/promote/{id}',[UserController::class,'promote'])->name('user.promote');
         Route::patch('/user/demote/{id}',[UserController::class,'demote'])->name('user.demote');
+/*
+        |--------------------------------------------------------------------------
+        | GRAFIK
+        |--------------------------------------------------------------------------
+        */
+       Route::get('/admin/grafik', [OrderController::class, 'grafik'])
+    ->name('admin.grafik');
 
     });
 
@@ -249,6 +258,10 @@ Route::middleware('auth')->group(function() {
     Route::patch('/akun/pengaturan',[UserController::class,'update'])->name('akun.update');
 
     Route::patch('/changepass',[UserController::class,'changePassword'])->name('changepassword');
+
+
+    // bayara denda
+    Route::patch('/bayar-denda/{id}', [OrderController::class,'bayarDenda'])->name('bayar.denda');
 
 });
 

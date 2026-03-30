@@ -8,94 +8,143 @@
 <div class="container mt-4">
 
     <div class="row mb-4">
-        <h4>Laporan Reservasi dan Pemasukan</h4>
+        <h4>Laporan Reservasi & Pemasukan</h4>
         <small>
             from <b>{{ date('D, d M Y', strtotime(request('dari'))) }}</b>
             to <b>{{ date('D, d M Y', strtotime(request('sampai'))) }}</b>
         </small>
     </div>
 
-    <div class="row">
+    <table class="table table-bordered">
 
-        <table class="table table-bordered">
+        <thead class="table-light">
+            <tr>
+                <th>No</th>
+                <th>Invoice</th>
+                <th>Tanggal</th>
+                <th>Penyewa</th>
+                <th>Total Sewa</th>
+                <th>Denda</th>
+                <th>Grand Total</th>
+                <th>Detail</th>
+            </tr>
+        </thead>
 
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Tanggal Reservasi</th>
-                    <th>Item</th>
-                    <th>Jenis</th>
-                    <th>Penyewa</th>
-                    <th>Harga</th>
-                </tr>
-            </thead>
+        <tbody>
 
-            <tbody>
+        @foreach($laporan as $item)
 
-                @foreach ($laporan as $item)
+        @php
+            $grand = $item->total + $item->total_denda;
+        @endphp
 
-                <tr>
+        <tr>
+            <td>{{ $loop->iteration }}</td>
 
-                    <td>{{ $loop->iteration }}</td>
+            <td>{{ $item->no_invoice }}</td>
 
-                    <td>
-                        {{ date('D, d M Y', strtotime($item->tanggal)) }}
-                    </td>
+            <td>{{ date('d M Y', strtotime($item->created_at)) }}</td>
 
-                    <td>
+            <td>{{ $item->name }}</td>
 
-                        {{-- Jika Alat --}}
-                        @if(isset($item->nama_alat))
-                            {{ $item->nama_alat }}
+            <td class="text-end">
+                <b>@money($item->total)</b>
+            </td>
 
-                        {{-- Jika Layanan --}}
-                        @elseif(isset($item->nama_layanan))
-                            {{ $item->nama_layanan }}
+            <td class="text-end text-danger">
+                <b>@money($item->total_denda)</b>
+            </td>
 
-                        @else
-                            -
-                        @endif
+            <td class="text-end text-success">
+                <b>@money($grand)</b>
+            </td>
 
-                    </td>
+            <td>
+                <button class="btn btn-sm btn-primary"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#detail{{ $item->id }}">
+                    Detail
+                </button>
+            </td>
+        </tr>
 
-                    <td>
+        {{-- 🔽 DETAIL ITEM --}}
+        <tr class="collapse" id="detail{{ $item->id }}">
+            <td colspan="8">
 
-                        @if(isset($item->nama_alat))
-                            <span class="badge bg-primary">Alat</span>
+                <table class="table table-sm table-bordered">
+                    <thead class="table-secondary">
+                        <tr>
+                            <th>No</th>
+                            <th>Item</th>
+                            <th>Jenis</th>
+                            <th class="text-end">Harga</th>
+                        </tr>
+                    </thead>
+                    <tbody>
 
-                        @elseif(isset($item->nama_layanan))
-                            <span class="badge bg-success">Layanan</span>
+                        @foreach($item->items as $d)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
 
-                        @endif
+                            <td>
+                                {{ $d->nama_alat ?? $d->nama_layanan ?? '-' }}
+                            </td>
 
-                    </td>
+                            <td>
+                                @if($d->nama_alat)
+                                    <span class="badge bg-primary">Alat</span>
+                                @elseif($d->nama_layanan)
+                                    <span class="badge bg-success">Layanan</span>
+                                @endif
+                            </td>
 
-                    <td>
-                        {{ $item->name }}
-                    </td>
+                            <td class="text-end">
+                                @money($d->harga)
+                            </td>
+                        </tr>
+                        @endforeach
 
-                    <td style="text-align:right">
-                        <b>@money($item->harga)</b>
-                    </td>
+                    </tbody>
+                </table>
 
-                </tr>
+            </td>
+        </tr>
 
-                @endforeach
+        @endforeach
 
-                <tr>
-                    <td colspan="5"></td>
-                    <td style="text-align:right">
-                        <b>@money($total)</b>
-                    </td>
-                </tr>
+        {{-- TOTAL --}}
+        @php
+            $totalSewa = $laporan->sum('total');
+            $totalDenda = $laporan->sum('total_denda');
+            $grandTotal = $totalSewa + $totalDenda;
+        @endphp
 
-            </tbody>
+        <tr class="table-light">
+            <td colspan="4"></td>
 
-        </table>
+            <td class="text-end">
+                <b>@money($totalSewa)</b>
+            </td>
 
-    </div>
+            <td class="text-end text-danger">
+                <b>@money($totalDenda)</b>
+            </td>
+
+            <td class="text-end text-success">
+                <b>@money($grandTotal)</b>
+            </td>
+
+            <td></td>
+        </tr>
+
+        </tbody>
+
+    </table>
 
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
 window.print()

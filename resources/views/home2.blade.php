@@ -267,10 +267,10 @@ Rp {{ number_format($service->harga) }}
 
 @if(!Auth::check())
 
-<button class="btn btn-outline-primary w-100"
+<button class="btn btn-outline-success w-100"
 data-bs-toggle="modal"
 data-bs-target="#loginModal">
-Login untuk Pesan
+Login untuk Reservasi
 </button>
 
 @else

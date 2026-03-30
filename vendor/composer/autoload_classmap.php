@@ -39,6 +39,7 @@ return array(
     'App\\Models\\Alat' => $baseDir . '/app/Models/Alat.php',
     'App\\Models\\Carts' => $baseDir . '/app/Models/Carts.php',
     'App\\Models\\Category' => $baseDir . '/app/Models/Category.php',
+    'App\\Models\\Denda' => $baseDir . '/app/Models/Denda.php',
     'App\\Models\\Order' => $baseDir . '/app/Models/Order.php',
     'App\\Models\\Payment' => $baseDir . '/app/Models/Payment.php',
     'App\\Models\\Service' => $baseDir . '/app/Models/Service.php',

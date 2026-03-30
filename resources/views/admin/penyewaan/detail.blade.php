@@ -1,14 +1,26 @@
 @extends('admin.main')
 @section('content')
+
 <div class="container-fluid px-4">
 <div class="row">
 <div class="col-md-12 mt-4">
 <div class="card">
 
-<div class="card-header">
-<div class="d-flex justify-content-between">
-<a href="{{ route('penyewaan.index') }}"><i class="fas fa-arrow-left"></i></a> Detail
+@php
+    $payment = $detail->first()->payment ?? null;
+@endphp
 
+{{-- ================= HEADER ================= --}}
+<div class="card-header">
+<div class="d-flex justify-content-between align-items-center">
+
+<a href="{{ route('penyewaan.index') }}">
+<i class="fas fa-arrow-left"></i>
+</a>
+
+<h5 class="mb-0">Detail Reservasi</h5>
+
+<div>
 @if ($status == 1)
 <span class="badge bg-warning">Perlu Ditinjau</span>
 @elseif ($status == 2)
@@ -16,20 +28,23 @@
 @elseif ($status == 3)
 <span class="badge bg-success">Sudah Bayar</span>
 @elseif ($status == 4)
-<span class="badge bg-secondary">Selesai</span>
+<span class="badge bg-warning">Menunggu Pembayaran Denda</span>
+@elseif ($status == 5)
+<span class="badge bg-success">Selesai</span>
 @endif
+</div>
 
 </div>
 </div>
 
+{{-- ================= BODY ================= --}}
 <div class="card-body" style="overflow:auto">
 
-<table class="table table-success w-100">
-<tbody>
-
+{{-- ================= INFO ================= --}}
+<table class="table table-success">
 <tr>
 <th>No. Invoice</th>
-<td>{{ $detail->first()->payment->no_invoice }}</td>
+<td>{{ $payment->no_invoice ?? '-' }}</td>
 </tr>
 
 <tr>
@@ -47,20 +62,27 @@
 
 <tr>
 <th>Tanggal Pengambilan</th>
-<td>
-{{ date('d M Y H:i', strtotime($detail->first()->starts)) }}
-</td>
+<td>{{ date('d M Y H:i', strtotime($detail->first()->starts)) }}</td>
 </tr>
-
-</tbody>
 </table>
 
+{{-- ================= TABLE ITEM ================= --}}
+<form action="{{ route('acc',['paymentId'=>$payment->id]) }}" method="POST" id="formAcc">
+@csrf
+@method('PATCH')
 
 <table class="table">
-
 <thead>
 <tr>
-<th>No</th>
+<th width="120">
+No <br>
+
+@if ($status == 1)
+<input type="checkbox" id="checkAll"> 
+<small>Pilih Semua</small>
+@endif
+
+</th>
 <th>Item</th>
 <th>Pengembalian</th>
 <th>Harga</th>
@@ -69,33 +91,24 @@
 
 <tbody>
 
-<form action="{{ route('acc',['paymentId'=>$detail->first()->payment->id]) }}" method="POST">
-@method('PATCH')
-@csrf
-
 @foreach($detail as $item)
-
 <tr class="{{ ($item->status == 3) ? 'table-danger' : '' }}">
 
 <td>
-
 {{ $loop->iteration }}
 
 @if ($status == 1)
-<input type="checkbox" name="order[]" class="form-check-input" value="{{ $item->id }}">
+<br>
+<input type="checkbox" 
+       class="itemCheckbox" 
+       name="order[]" 
+       value="{{ $item->id }}">
 @endif
-
 </td>
 
 <td>
-
 @if($item->alat_id)
-
-<a class="link-dark" href="{{ route('home.detail',['id'=>$item->alat->id]) }}">
-{{ $item->alat->nama_alat }}
-</a>
-
-<br>
+<b>{{ $item->alat->nama_alat }}</b><br>
 
 <span class="badge bg-warning">
 {{ $item->alat->category->nama_kategori }}
@@ -106,198 +119,241 @@
 </span>
 
 @elseif($item->service_id)
-
-<b>{{ $item->service->nama_layanan }}</b>
-
-<br>
-
-<span class="badge bg-info">
-Layanan
-</span>
-
+<b>{{ $item->service->nama_layanan }}</b><br>
+<span class="badge bg-info">Layanan</span>
 @endif
-
 
 @if ($item->status === 3)
 <span class="badge bg-danger">Ditolak</span>
 @elseif ($item->status === 2)
 <span class="badge bg-success">ACC</span>
 @endif
-
 </td>
 
 <td>
-
-@if($item->ends)
-{{ date('d M Y H:i', strtotime($item->ends)) }}
-@else
--
-@endif
-
+{{ $item->ends ? date('d M Y H:i', strtotime($item->ends)) : '-' }}
 </td>
 
-<td style="text-align:right">
+<td class="text-end">
 <b>@money($item->harga)</b>
 </td>
 
 </tr>
-
 @endforeach
 
-
 <tr>
-
 <td>
-
 @if ($status == 1)
-<button type="submit" class="btn btn-success">Acc</button>
-@endif
+<div class="d-flex gap-2">
 
+<button type="submit" class="btn btn-success">
+ACC Terpilih
+</button>
+
+<button type="button" class="btn btn-danger" onclick="submitReject()">
+Reject Terpilih
+</button>
+
+</div>
+@endif
 </td>
 
 <td></td>
-
-<td style="text-align:right">
-<b>Total</b>
-</td>
-
-<td style="text-align:right">
-<b>@money($total)</b>
-</td>
-
+<td class="text-end"><b>Total</b></td>
+<td class="text-end"><b>@money($total)</b></td>
 </tr>
-
-</form>
 
 </tbody>
 </table>
-
-
-@if ($status == 1 || $status == 2)
-
-<form action="{{ route('admin.penyewaan.cancel',['id'=>$detail->first()->payment->id]) }}" method="POST">
-@method('DELETE')
-@csrf
-
-<button type="submit"
-onclick="return confirm('Anda yakin akan membatalkan reservasi?');"
-class="btn btn-danger mb-3">
-Cancel Reservasi
-</button>
-
 </form>
+
+{{-- ================= SCRIPT CHECKBOX ================= --}}
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+
+    const checkAll = document.getElementById("checkAll");
+    const checkboxes = document.querySelectorAll(".itemCheckbox");
+
+    if(checkAll){
+        checkAll.addEventListener("click", function() {
+            checkboxes.forEach(cb => cb.checked = this.checked);
+        });
+
+        checkboxes.forEach(cb => {
+            cb.addEventListener("click", function() {
+                const allChecked = document.querySelectorAll('.itemCheckbox:checked').length === checkboxes.length;
+                checkAll.checked = allChecked;
+            });
+        });
+    }
+
+});
+
+function submitReject(){
+    if(confirm("Yakin ingin reject item terpilih?")){
+        let form = document.getElementById('formAcc');
+        form.action = "{{ route('reject',['paymentId'=>$payment->id]) }}";
+        form.submit();
+    }
+}
+</script>
+
+{{-- ================= DENDA ================= --}}
+@if($payment && $payment->dendas->count() > 0)
+
+@php
+$denda = $payment->dendas->first();
+@endphp
+
+<div class="card mt-4 border-danger">
+<div class="card-header bg-danger text-white">
+<b>Informasi Denda</b>
+</div>
+
+<div class="card-body">
+<table class="table table-bordered">
+<tr>
+<th>Jenis</th>
+<th>Keterangan</th>
+<th>Jumlah</th>
+<th>Status</th>
+</tr>
+
+<tr>
+<td><span class="badge bg-warning text-dark">{{ ucfirst($denda->jenis_denda) }}</span></td>
+<td>{{ $denda->keterangan }}</td>
+<td><b>@money($denda->jumlah)</b></td>
+<td>
+@if($denda->status_pembayaran == 'belum_bayar')
+<span class="badge bg-danger">Belum Bayar</span>
+@else
+<span class="badge bg-success">Sudah Bayar</span>
+@endif
+</td>
+</tr>
+</table>
+</div>
+</div>
 
 @endif
 
-
-
+{{-- ================= INPUT DENDA ================= --}}
 @if ($status == 3)
-
-<form action="{{ route('selesai',['id'=>$detail->first()->payment->id]) }}" method="POST">
+<form action="{{ route('selesai',['id'=>$payment->id]) }}" method="POST">
 @csrf
 @method('PATCH')
 
-<button type="submit"
-class="btn btn-success mb-4"
-onclick="return confirm('Pastikan alat sudah dikembalikan semua');">
-Sudah dikembalikan
+<div class="mb-3">
+<label>Denda (Rp)</label>
+<input type="number" name="denda" id="dendaInput" class="form-control">
+</div>
+
+<div class="mb-3">
+<label>Jenis Denda</label>
+<select name="jenis_denda" id="jenisDenda" class="form-control" disabled>
+<option value="">-- Pilih --</option>
+<option value="telat">Keterlambatan</option>
+<option value="rusak">Kerusakan</option>
+<option value="hilang">Hilang</option>
+</select>
+</div>
+
+<div class="mb-3">
+<label>Keterangan</label>
+<input type="text" name="keterangan" class="form-control">
+</div>
+
+<button type="submit" class="btn btn-primary mb-4">
+Proses Pengembalian
 </button>
 
 </form>
 
+<script>
+document.getElementById('dendaInput').addEventListener('input', function() {
+    let jenis = document.getElementById('jenisDenda');
+    jenis.disabled = (this.value == '' || this.value == 0);
+});
+</script>
 @endif
 
+{{-- ================= ACC DENDA ================= --}}
+@if ($status == 4)
 
+<div class="alert alert-warning mt-3">
+Menunggu pembayaran denda
+</div>
 
+@if($payment->bukti_denda)
+<img src="{{ url('images/denda/'.$payment->bukti_denda) }}" width="400">
+@endif
+
+<form action="{{ route('acc.denda',['id'=>$payment->id]) }}" method="POST">
+@csrf
+@method('PATCH')
+<button class="btn btn-success">ACC Pembayaran Denda</button>
+</form>
+
+@endif
+
+{{-- ================= BUKTI & KTP (TIDAK DIHAPUS) ================= --}}
 @if ($status != 1)
 
-<div class="accordion" id="accordionExample">
-
-{{-- =========================
-      BUKTI PEMBAYARAN
-   ========================= --}}
+<div class="accordion mt-4">
 
 <div class="accordion-item">
-
-<h2 class="accordion-header">
-<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+<button class="accordion-button" data-bs-toggle="collapse" data-bs-target="#bukti">
 Bukti Pembayaran
 </button>
-</h2>
 
-<div id="collapseOne" class="accordion-collapse collapse show">
-
+<div id="bukti" class="accordion-collapse collapse show">
 <div class="accordion-body">
 
-@if ($detail->first()->payment->bukti == NULL)
-
-Belum melakukan upload bukti pembayaran
-
-@else
-
-<form action="{{ route('accbayar',['id'=>$detail->first()->payment->id]) }}" method="POST">
-@method('PATCH')
+@if ($payment->bukti)
+<form action="{{ route('accbayar',['id'=>$payment->id]) }}" method="POST">
 @csrf
+@method('PATCH')
 
-<button type="submit"
-class="btn btn-success mb-4"
-{{ ($status == 3 || $status == 4) ? 'disabled' : '' }}>
-Acc Pembayaran
+<button class="btn btn-success mb-3" {{ ($status >= 3) ? 'disabled' : '' }}>
+ACC Pembayaran
 </button>
-
 </form>
 
-<img src="{{ url('') }}/images/evidence/{{ $detail->first()->payment->bukti }}" width="500px">
-
+<img src="{{ url('images/evidence/'.$payment->bukti) }}" width="400">
+@else
+Belum upload bukti
 @endif
 
 </div>
 </div>
 </div>
-
-
-{{-- =========================
-      JAMINAN KTP
-   ========================= --}}
 
 <div class="accordion-item">
-
-<h2 class="accordion-header">
-<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseKtp">
+<button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#ktp">
 Jaminan KTP
 </button>
-</h2>
 
-<div id="collapseKtp" class="accordion-collapse collapse">
-
+<div id="ktp" class="accordion-collapse collapse">
 <div class="accordion-body">
 
-@if ($detail->first()->payment->jaminan_ktp == NULL)
-
-Belum upload jaminan KTP
-
+@if ($payment->jaminan_ktp)
+<img src="{{ url('images/ktp/'.$payment->jaminan_ktp) }}" width="400">
 @else
-
-<img src="{{ url('') }}/images/ktp/{{ $detail->first()->payment->jaminan_ktp }}" width="500px">
-
+Belum upload KTP
 @endif
 
 </div>
 </div>
 </div>
 
-
 </div>
 
 @endif
 
-
 </div>
-
-<div class="card-footer"></div>
-
 </div>
 </div>
 </div>
 </div>
+
 @endsection
