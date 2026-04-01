@@ -23,13 +23,13 @@
                         <tbody>
                             @foreach ($penyewaan as $item)
 
-                                {{-- 🔥 ROW MERAH JIKA ADA DENDA --}}
+                                {{--  ROW MERAH JIKA ADA DENDA --}}
                                 <tr class="{{ $item->status == 4 ? 'table-danger' : '' }}">
 
                                     <td>
                                         {{ $item->no_invoice }}
 
-                                        {{-- 🔥 BADGE STATUS --}}
+                                        {{--  BADGE STATUS --}}
                                         @if($item->status == 4)
                                             <span class="badge bg-danger">Ada Denda</span>
                                         @else
@@ -40,7 +40,7 @@
                                     <td>
                                         {{ date('D, d M Y H:i', strtotime($item->created_at)) }}
 
-                                        {{-- 🔥 PESAN DENDA --}}
+                                        {{--  PESAN DENDA --}}
                                         @if($item->status == 4)
                                             <br>
                                             <small class="text-danger fw-bold">
@@ -62,7 +62,7 @@
                                             {{ $item->order->count() }} Alat
                                         </span>
 
-                                        {{-- 🔥 TOTAL DENDA --}}
+                                        {{--  TOTAL DENDA --}}
                                         @if($item->status == 4 && $item->dendas->count() > 0)
                                             <br>
                                             <span class="badge bg-danger">

@@ -20,7 +20,7 @@
                         <tbody>
                             @foreach ($penyewaan as $item)
 
-                                {{-- 🔥 ROW MERAH JIKA ADA DENDA --}}
+                                {{--  ROW MERAH JIKA ADA DENDA --}}
                                 <tr class="{{ $item->status == 4 ? 'table-danger' : '' }}">
 
                                     <td>
@@ -41,7 +41,7 @@
                                     <td>
                                         {{ date('D, d M Y H:i', strtotime($item->created_at)) }}
 
-                                        {{-- 🔥 PESAN DENDA --}}
+                                        {{-- PESAN DENDA --}}
                                         @if ($item->status == 4)
                                             <br>
                                             <small class="text-danger fw-bold">
@@ -63,7 +63,7 @@
                                             {{ $item->order->count() }} Alat
                                         </span>
 
-                                        {{-- 🔥 TOTAL DENDA --}}
+                                        {{-- TOTAL DENDA --}}
                                         @if ($item->status == 4 && $item->dendas->count() > 0)
                                             <br>
                                             <span class="badge bg-danger">
@@ -78,7 +78,7 @@
 
                                             Detail
 
-                                            {{-- 🔥 NOTIF BULAT (TETAP ADA) --}}
+                                            {{-- NOTIF BULAT (TETAP ADA) --}}
                                             @if ($item->bukti != null && $item->status != 4 && $item->status != 3)
                                             <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
                                                 <span class="visually-hidden">bukti bayar</span>
@@ -98,7 +98,7 @@
             </div>
         </div>
 
-        {{-- 🔥 KALENDER (TIDAK DIUBAH) --}}
+        {{-- KALENDER (TIDAK DIUBAH) --}}
         <div class="col-md-12 mt-4">
             <div class="card">
                 <div class="card-body">

@@ -21,19 +21,15 @@ class OrderController extends Controller
     // ================= MEMBER =================
     public function show() {
 
-    // 🔥 ambil semua payment user + relasi denda
     $payments = Payment::with(['user','order','dendas'])
                 ->where('user_id', Auth::id())
                 ->orderBy('id','DESC')
                 ->get();
 
-    // 🔥 pisahkan yang ada denda (status 4)
     $dendaAktif = $payments->where('status', 4);
 
-    // 🔥 sisanya (bukan denda & bukan selesai)
     $reservasiNormal = $payments->whereNotIn('status',[4,5]);
 
-    // 🔥 gabungkan → denda di atas
     $reservasi = $dendaAktif->merge($reservasiNormal);
 
     return view('member.reservasi',[
@@ -51,21 +47,19 @@ class OrderController extends Controller
         return abort(403, "Forbidden");
     }
 
-    // ✅ HITUNG DENDA
-    $totalDenda = $payment->dendas->sum('jumlah');
 
-    // ✅ GRAND TOTAL
+    $totalDenda = $payment->dendas->sum('jumlah');
     $grandTotal = $payment->total + $totalDenda;
 
     return view('member.detailreservasi',[
         'detail' => $payment->order,
         'total' => $payment->total,
-        'totalDenda' => $totalDenda,   // ⬅️ TAMBAHAN
-        'grandTotal' => $grandTotal,   // ⬅️ TAMBAHAN
+        'totalDenda' => $totalDenda,   
+        'grandTotal' => $grandTotal,   
         'paymentId' => $payment->id,
         'paymentStatus' => $payment->status,
         'bukti' => $payment->bukti,
-        'payment' => $payment          // ⬅️ biar akses denda di blade
+        'payment' => $payment         
     ]);
 }
 
@@ -304,7 +298,6 @@ class OrderController extends Controller
         ->orderBy('payments.id','DESC')
         ->get();
 
-    // ambil detail item per transaksi
     foreach ($laporan as $item) {
 
         $item->items = DB::table('orders')

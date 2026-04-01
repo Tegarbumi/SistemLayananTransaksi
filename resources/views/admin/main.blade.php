@@ -201,7 +201,7 @@
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest"></script>
 <script src="{{ asset('js/datatables.js') }}"></script>
 
-{{-- 🔥 TEMPAT SCRIPT PER PAGE (WAJIB UNTUK CHART) --}}
+{{--  TEMPAT SCRIPT PER PAGE (WAJIB UNTUK CHART) --}}
 @stack('scripts')
 
 </body>

@@ -15,7 +15,7 @@
 @endsection
 
 
-{{-- 🔥 SCRIPT MASUK KE STACK --}}
+{{-- SCRIPT MASUK KE STACK --}}
 @push('scripts')
 
 <script>
