@@ -2,7 +2,13 @@
 @section('container')
 
 <div class="container">
-
+ {{-- NOTIFIKASI BONUS --}}
+    @if(session('bonus'))
+        <div class="alert alert-success mt-3">
+            {{ session('bonus') }}
+        </div>
+    @endif
+    
 <div class="card shadow rounded-4">
 
 {{-- HEADER --}}
@@ -112,10 +118,10 @@ Transaksi selesai
 {{ $item->durasi }} Jam
 </span>
 
-@if($item->harga == 0)
+@if($item->is_bonus)
 <span class="badge bg-success">🎁 Bonus</span>
 @endif
-
+    
 @elseif($item->service_id)
 
 <b>{{ $item->service->nama_layanan }}</b><br>
@@ -205,9 +211,10 @@ class="btn btn-danger w-100 mt-2">
 
 @if ($detail->first()->payment->bukti == NULL)
 
-<p>Silakan lakukan pembayaran ke:</p>
-<h5><b>BCA xxxxxxxxxx</b></h5>
-<p>a.n Sanss Adventure</p>
+<p>Silahkan lakukan pembayaran ke:</p>
+<h5><b>BRI 01230107645204</b></h5>
+<h5><b>Mandiri 1730015056782</b></h5>
+<p>a.n ADY SAMSU BAHTERA</p>
 
 @else
 <p><i class="fas fa-check"></i> Bukti sudah diupload, tunggu konfirmasi admin</p>
@@ -269,7 +276,7 @@ class="img-fluid rounded shadow">
 {{-- UPLOAD DENDA --}}
 @if(!$detail->first()->payment->bukti_denda)
 
-<form action="{{ route('bayar.denda',['id'=>$paymentId]) }}" method="POST" enctype="multipart/form-data">
+<form action="{{ route('denda.bayar',['id'=>$paymentId]) }}" method="POST" enctype="multipart/form-data">
 @csrf
 @method('PATCH')
 

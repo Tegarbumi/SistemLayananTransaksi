@@ -12,22 +12,25 @@ class AuthController extends Controller
     }
 
     public function authenticate(Request $request) {
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required'
-        ]);
 
-        if(Auth::attempt($credentials)) {
-            $request->session()->regenerate();
+    $credentials = $request->validate([
+        'email' => 'required|email',
+        'password' => 'required'
+    ]);
 
-            if(Auth::user()->role != 0) {
-                return redirect(route('admin.index'));
-            } else {
-                return redirect(route('member.index'));
-            }
-        }
-        return back()->with('error', 'Login gagal: tidak ada user terdaftar pada sistem');
+    if (Auth::attempt($credentials)) {
+
+        $request->session()->regenerate();
+
+        $user = Auth::user();
+
+        return $user->role != 0
+            ? redirect()->route('admin.index')
+            : redirect()->route('member.index');
     }
+
+    return back()->with('error', 'Login gagal: tidak ada user terdaftar pada sistem');
+}
 
     public function logout(Request $request) {
         Auth::logout();

@@ -60,7 +60,7 @@
                                         &nbsp;
 
                                         <span class="badge bg-secondary">
-                                            {{ $item->order->count() }} Alat
+                                            {{ $item->order->count() }} Produk
                                         </span>
 
                                         {{-- TOTAL DENDA --}}

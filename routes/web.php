@@ -18,6 +18,10 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RentController;
 use App\Http\Controllers\MemberController;
 
+use App\Http\Controllers\DendaController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\GrafikController;
 
 /*
 |--------------------------------------------------------------------------
@@ -150,9 +154,8 @@ Route::middleware(['auth','admin'])->group(function () {
         Route::patch('/accbayar/{id}',[OrderController::class,'accbayar'])->name('accbayar');
 
         Route::patch('/selesai/{id}',[OrderController::class,'alatkembali'])->name('selesai');
-        Route::patch('/acc-denda/{id}', [OrderController::class,'accDenda'])->name('acc.denda');
 
-        Route::get('/laporan/cetak',[OrderController::class,'cetak'])->name('cetak');
+        Route::get('/laporan/cetak',[LaporanController::class,'cetak'])->name('cetak');
         Route::patch('/admin/reject/{paymentId}', [OrderController::class, 'reject'])->name('reject');
 
 
@@ -184,9 +187,7 @@ Route::middleware(['auth','admin'])->group(function () {
         | GRAFIK
         |--------------------------------------------------------------------------
         */
-       Route::get('/admin/grafik', [OrderController::class, 'grafik'])
-    ->name('admin.grafik');
-
+       Route::get('/admin/grafik',[GrafikController::class,'grafik'])->name('admin.grafik');
     });
 
 });
@@ -233,7 +234,7 @@ Route::middleware('auth')->group(function() {
 
     Route::get('/reservasi/detail/{id}',[OrderController::class,'detail'])->name('order.detail');
 
-    Route::patch('/bayar/{id}',[OrderController::class,'bayar'])->name('bayar');
+    Route::patch('/bayar/{id}', [PaymentController::class,'bayar'])->name('bayar');
 
     Route::delete('/reservasi/cancel/{id}',[OrderController::class,'destroy'])->name('cancel');
 
@@ -258,11 +259,12 @@ Route::middleware('auth')->group(function() {
     Route::patch('/akun/pengaturan',[UserController::class,'update'])->name('akun.update');
 
     Route::patch('/changepass',[UserController::class,'changePassword'])->name('changepassword');
-
-
-    // bayara denda
-    Route::patch('/bayar-denda/{id}', [OrderController::class,'bayarDenda'])->name('bayar.denda');
-
+//
+    Route::post('/denda/{paymentId}', [DendaController::class, 'store'])->name('denda.store');
+    // bayar denda
+    Route::patch('/denda/bayar/{id}', [DendaController::class, 'bayarDenda'])->name('denda.bayar');
+    // Acc Denda
+    Route::patch('/denda/acc/{id}', [DendaController::class, 'accDenda'])->name('denda.acc');
 });
 
 

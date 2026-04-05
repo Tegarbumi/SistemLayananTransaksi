@@ -288,7 +288,7 @@ Menunggu pembayaran denda
 <img src="{{ url('images/denda/'.$payment->bukti_denda) }}" width="400">
 @endif
 
-<form action="{{ route('acc.denda',['id'=>$payment->id]) }}" method="POST">
+<form action="{{ route('denda.acc',['id'=>$payment->id]) }}" method="POST">
 @csrf
 @method('PATCH')
 <button class="btn btn-success">ACC Pembayaran Denda</button>

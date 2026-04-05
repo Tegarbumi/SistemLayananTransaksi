@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", function(){
 <span class="badge bg-danger">Denda</span>
 @endif
 
-{{-- 🔥 PESAN DENDA --}}
+{{-- PESAN DENDA --}}
 @if($hasDenda && $item->status == 4)
 <div class="alert alert-danger mt-2 p-2">
 <i class="fas fa-exclamation-triangle"></i>

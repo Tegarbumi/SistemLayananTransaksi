@@ -4,7 +4,8 @@
 Reservasi anda telah disetujui oleh Admin.  
 Langkah selanjutnya adalah melakukan pembayaran melalui transfer ATM ke rekening :
 
-## BCA xxxxxxxxxx a/n SANSS ADVENTURE
+## BRI 012301076452504 a/n ADY SAMSU BAHTERA 
+## MANDIRI 1730015056782 a/n ADY SAMSU BAHTERA 
 ## Jumlah Pembayaran : @money($payment->total)
 
 Setelah pembayaran, silakan upload bukti bayar pada website.

@@ -16,7 +16,7 @@ class AlatApiController extends Controller
             $filtered = DB::table('alats')
                 ->join('categories', 'categories.id','alats.kategori_id')
                 ->where('kategori_id', $query)
-                ->get(['alats.id','kategori_id','nama_alat','harga24','harga12','harga6','nama_kategori']);
+                ->get(['alats.id','kategori_id','nama_alat','harga24','nama_kategori']);
 
             if($filtered->isNotEmpty()) {
                 return response()->json([
@@ -32,7 +32,7 @@ class AlatApiController extends Controller
         } else {
             $alat = DB::table('alats')
                 ->join('categories', 'categories.id','alats.kategori_id')
-                ->get(['alats.id','kategori_id','nama_alat','harga24','harga12','harga6','nama_kategori']);
+                ->get(['alats.id','kategori_id','nama_alat','harga24','nama_kategori']);
 
             return response()->json([
                 'message' => 'success',
@@ -49,7 +49,7 @@ class AlatApiController extends Controller
     }
 
     public function detail($id) {
-        $alat = Alat::find($id, ['id', 'kategori_id', 'nama_alat', 'harga24', 'harga12', 'harga6']);
+        $alat = Alat::find($id, ['id', 'kategori_id', 'nama_alat', 'harga24']);
 
         $booked = DB::table('orders')
             ->join('alats', 'alats.id','=','orders.alat_id')
