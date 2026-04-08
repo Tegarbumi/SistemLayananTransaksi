@@ -40,7 +40,6 @@ body{
     right:0;
 }
 
-/* Navbar modern */
 .navbar{
     box-shadow:0 2px 10px rgba(0,0,0,0.1);
 }
@@ -49,19 +48,16 @@ body{
     font-weight:bold;
 }
 
-/* Badge lebih modern */
 .badge{
     font-size:12px;
     padding:6px 8px;
     border-radius:20px;
 }
 
-/* Container */
 .main-content{
     margin-top:20px;
 }
 
-/* Hover efek */
 .nav-link:hover{
     opacity:0.8;
 }
@@ -71,7 +67,6 @@ body{
 </head>
 
 <body>
-
 
 <!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -131,7 +126,6 @@ href="{{ route('member.kalender') }}">
 </a>
 </li>
 
-<!-- USER DROPDOWN -->
 <li class="nav-item dropdown ms-3">
 
 <a class="nav-link dropdown-toggle d-flex align-items-center"
@@ -172,6 +166,130 @@ data-bs-toggle="dropdown">
 </nav>
 
 
+<!-- 🔥 KERANJANG GLOBAL (TANPA DIUBAH) -->
+<div id="keranjang">
+
+<div class="card border-0 rounded-0">
+
+<div class="card-header bg-dark text-white d-flex justify-content-between">
+
+<b>Keranjang</b>
+
+<button class="btn btn-sm btn-light"
+onclick="toggleCart()">
+X
+</button>
+
+</div>
+
+<div class="card-body">
+
+<div class="list-group">
+
+@forelse ($carts ?? [] as $item)
+
+<div class="list-group-item">
+
+<div class="d-flex justify-content-between">
+
+<h6>
+
+@if($item->alat_id)
+    {{ $item->alat->nama_alat }}
+@elseif($item->service_id)
+    {{ $item->service->nama_layanan }}
+@endif
+
+</h6>
+
+<b>@money($item->harga)</b>
+
+</div>
+
+<div class="d-flex justify-content-between">
+
+<p>
+
+@if($item->alat_id)
+    {{ $item->durasi }} Jam
+@elseif($item->service_id)
+    {{ $item->service->durasi }}
+@endif
+
+</p>
+
+<form action="{{ route('cart.destroy',['id'=>$item->id]) }}" method="POST">
+
+@method('DELETE')
+@csrf
+
+<button class="btn btn-danger btn-sm">
+<i class="fas fa-trash"></i>
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+@empty
+
+<p class="text-center">
+Keranjang masih kosong
+</p>
+
+@endforelse
+
+</div>
+
+</div>
+
+<div class="card-body">
+
+<div class="d-flex justify-content-between mb-2">
+
+<b>Total</b>
+
+<b>@money($total ?? 0)</b>
+
+</div>
+
+<form action="{{ route('order.create') }}" method="POST">
+
+@csrf
+
+<small>Tanggal Pengambilan</small>
+
+<input type="date"
+name="start_date"
+class="form-control mb-2"
+required>
+
+<small>Jam Pengambilan</small>
+
+<input type="time"
+name="start_time"
+class="form-control mb-3"
+required>
+
+<button type="submit"
+class="btn btn-success w-100"
+{{ (Auth::user()->cart->count() == 0) ? 'disabled' : '' }}>
+
+Checkout
+
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+
 <!-- CONTENT -->
 <div class="container-fluid px-4 main-content">
 
@@ -184,11 +302,12 @@ data-bs-toggle="dropdown">
 
 function toggleCart(){
     let cart = document.getElementById("keranjang");
-    cart.classList.toggle("active");
+    if(cart){
+        cart.classList.toggle("active");
+    }
 }
 
 </script>
-
 
 <script src="/js/datatables.js"></script>
 <script src="/js/adminscripts.js"></script>

@@ -301,7 +301,7 @@ Pesan Sekarang
     </div>
 </footer>
 
-<!-- MODAL LOGIN (ASLI, TIDAK DIPINDAH) -->
+<!-- MODAL LOGIN -->
 <div class="modal fade" id="loginModal" tabindex="-1">
 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 <div class="modal-content">

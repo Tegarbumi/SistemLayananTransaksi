@@ -7,6 +7,7 @@ use App\Mail\OrderPaid;
 use App\Models\Carts;
 use App\Models\Order;
 use App\Models\Payment;
+use App\Models\Denda;
 use App\Services\OrderService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -128,19 +129,35 @@ class OrderController extends Controller
     }
 
     // ================= PENGEMBALIAN =================
-    public function alatkembali(Request $request, $id)
-    {
-        $payment = Payment::findOrFail($id);
 
-        if ($request->filled('denda') && $request->denda > 0) {
-            $payment->update(['status' => 4]);
-            return back()->with('success', 'Pengembalian dengan denda');
-        } else {
-            $payment->update(['status' => 5]);
-            return back()->with('success', 'Pengembalian tanpa denda');
+public function alatkembali(Request $request, $id)
+{
+    $payment = Payment::findOrFail($id);
+
+    if ($request->filled('denda') && $request->denda > 0) {
+
+        // kalau belum ada denda
+        if (!$payment->dendas()->exists()) {
+            Denda::create([
+                'payment_id' => $payment->id,
+                'jenis_denda' => $request->jenis_denda ?? 'telat',
+                'jumlah' => $request->denda,
+                'keterangan' => $request->keterangan ?? '-',
+                'status_pembayaran' => 'belum_bayar'
+            ]);
         }
-    }
 
+        $payment->update(['status' => 4]);
+
+        return back()->with('success', 'Pengembalian dengan denda');
+
+    } else {
+
+        $payment->update(['status' => 5]);
+
+        return back()->with('success', 'Pengembalian tanpa denda');
+    }
+}
     public function reject(Request $request, $paymentId)
     {
         $orders = $request->order ?? [];

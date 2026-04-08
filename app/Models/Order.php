@@ -23,7 +23,7 @@ class Order extends Model
         return $this->belongsTo(Alat::class,'alat_id');
     }
 
-    // relasi ke service (BARU)
+    // relasi ke service
     public function service()
     {
         return $this->belongsTo(Service::class,'service_id');

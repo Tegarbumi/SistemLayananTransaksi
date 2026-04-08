@@ -9,7 +9,6 @@
 
 @endif
 
-
 <form action="">
 
 <div class="input-group mb-3">
@@ -180,7 +179,7 @@ Tambah
 
 
 
-<!-- PANEL KERANJANG -->
+<!-- PANEL KERANJANG
 
 <div id="keranjang">
 
@@ -195,7 +194,7 @@ onclick="toggleCart()">
 X
 </button>
 
-</div>
+</div> -->
 
 
 <div class="card-body">
