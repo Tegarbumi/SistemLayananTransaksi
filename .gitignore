@@ -1,2 +1,6 @@
 *.sqlite
 *.sqlite-journal
+
+/vendor
+/node_modules
+.env
