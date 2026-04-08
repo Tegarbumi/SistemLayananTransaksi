@@ -184,7 +184,7 @@ Layanan
 <div class="d-flex w-100 justify-content-between mb-2">
 
 <b>Total</b>
-<b>@money($total)</b>
+<b>@money($detail->sum('harga'))</b>
 
 </div>
 

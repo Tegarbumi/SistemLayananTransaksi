@@ -47,13 +47,14 @@ class OrderController extends Controller
         if ($payment->user_id != Auth::id()) {
             abort(403);
         }
-
+    
+        $total = \App\Models\Order::where('payment_id', $payment->id)->sum('harga');
         $totalDenda = $payment->dendas->sum('jumlah');
-        $grandTotal = $payment->total + $totalDenda;
+        $grandTotal = $total + $totalDenda;
 
         return view('member.detailreservasi', [
             'detail' => $payment->order,
-            'total' => $payment->total,
+            'total' => $total,
             'totalDenda' => $totalDenda,
             'grandTotal' => $grandTotal,
             'paymentId' => $payment->id,

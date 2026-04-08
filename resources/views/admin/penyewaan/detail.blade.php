@@ -6,9 +6,6 @@
 <div class="col-md-12 mt-4">
 <div class="card">
 
-@php
-    $payment = $detail->first()->payment ?? null;
-@endphp
 
 {{-- ================= HEADER ================= --}}
 <div class="card-header">
@@ -160,7 +157,9 @@ Reject Terpilih
 
 <td></td>
 <td class="text-end"><b>Total</b></td>
-<td class="text-end"><b>@money($total)</b></td>
+<td class="text-end">
+    <b>@money($detail->where('status', 2)->sum('harga'))</b>
+</td>
 </tr>
 
 </tbody>

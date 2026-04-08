@@ -109,7 +109,7 @@ class AlatController extends Controller
             unlink($filepath);
         }
 
-        // Agar 'total' dalam Payment berkurang jika alat dihapus
+        // 
         $payment = new Payment();
         $order = Order::where('alat_id', $id)->get();
 

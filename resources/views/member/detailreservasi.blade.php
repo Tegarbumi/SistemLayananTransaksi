@@ -154,8 +154,8 @@ Transaksi selesai
 <td colspan="3" class="text-end">
 <b>Total Sewa</b>
 </td>
-<td class="text-end">
-<b>@money($total)</b>
+<<td class="text-end">
+    <b>@money($detail->where('status', 2)->sum('harga'))</b>
 </td>
 </tr>
 

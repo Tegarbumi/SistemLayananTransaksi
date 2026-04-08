@@ -27,14 +27,17 @@ class RentController extends Controller
 
     // ================= DETAIL =================
     public function detail($id) {
-        $payment = Payment::with(['user','order.alat','dendas'])->findOrFail($id);
+    $payment = Payment::with(['user','order.alat','dendas'])->findOrFail($id);
 
-        return view('admin.penyewaan.detail',[
-            'detail' => $payment->order,
-            'total' => $payment->total,
-            'status' => $payment->status,
-            'payment' => $payment,
-        ]);
+    // 
+    $total = \App\Models\Order::where('payment_id', $payment->id)->sum('harga');
+
+    return view('admin.penyewaan.detail',[
+        'detail' => $payment->order,
+        'total' => $total,
+        'status' => $payment->status,
+        'payment' => $payment,
+    ]);
     }
 
     // ================= HAPUS =================

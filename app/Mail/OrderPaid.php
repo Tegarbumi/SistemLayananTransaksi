@@ -31,7 +31,7 @@ class OrderPaid extends Mailable
      */
     public function build()
     {
-        return $this->from('rentalkamera@gmail.com', 'Rental Kamera Online')
+        return $this->from('sanss@gmail.com', 'Sanss Adventure')
                     ->subject('Pembayaran Berhasil!')
                     ->markdown('emails.orderpaid');
     }

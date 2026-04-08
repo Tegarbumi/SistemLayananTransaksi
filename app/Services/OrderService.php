@@ -53,35 +53,37 @@ class OrderService
 
             $c->delete();
         }
+        
+       // =================== BONUS ITEM ===================
 
-        // =================== BONUS ITEM ===================
-        $bonusJumlah = floor($payment->total / 300000);
+$totalAlat = $cart->whereNotNull('alat_id')->sum('harga');
 
-        if ($bonusJumlah > 0) {
-            $bonusAlat = Alat::whereNotIn('id', $cartAlat)
-                ->inRandomOrder()
-                ->take($bonusJumlah)
-                ->get();
+$bonusJumlah = floor($totalAlat / 500000);
 
-            foreach ($bonusAlat as $alat) {
-                Order::create([
-                    'alat_id' => $alat->id,
-                    'service_id' => null,
-                    'user_id' => $userId,
-                    'payment_id' => $payment->id,
-                    'durasi' => 0,
-                    'starts' => $start,
-                    'ends' => $start,
-                    'harga' => 0,
-                    'is_bonus' => true,
-                ]);
-            }
+if ($bonusJumlah > 0) {
+    $bonusAlat = Alat::whereNotIn('id', $cartAlat)
+        ->inRandomOrder()
+        ->take($bonusJumlah)
+        ->get();
 
-            // =================== FLASH NOTIFICATION ===================
-            session()->flash(
-                'bonus',
-                '🎉 Selamat! Anda mendapatkan ' . $bonusJumlah . ' bonus karena total sewa mencapai Rp' . number_format($payment->total, 0, ',', '.')
-            );
+    foreach ($bonusAlat as $alat) {
+        Order::create([
+            'alat_id' => $alat->id,
+            'service_id' => null,
+            'user_id' => $userId,
+            'payment_id' => $payment->id,
+            'durasi' => 0,
+            'starts' => $start,
+            'ends' => $start,
+            'harga' => 0,
+            'is_bonus' => true,
+        ]);
+    }
+
+    session()->flash(
+        'bonus',
+        '🎉 Selamat! Anda mendapatkan ' . $bonusJumlah . ' bonus karena total sewa alat mencapai Rp' . number_format($totalAlat, 0, ',', '.')
+    );
         }
 
         return $payment;

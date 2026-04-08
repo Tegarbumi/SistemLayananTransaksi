@@ -166,7 +166,7 @@ data-bs-toggle="dropdown">
 </nav>
 
 
-<!-- 🔥 KERANJANG GLOBAL (TANPA DIUBAH) -->
+<!-- -->
 <div id="keranjang">
 
 <div class="card border-0 rounded-0">

@@ -44,7 +44,8 @@ class Payment extends Model
 
     // Total keseluruhan (sewa + denda)
     public function getGrandTotalAttribute()
-    {
-        return $this->total + $this->total_denda;
-    }
+{
+    return $this->total_sewa + $this->total_denda;
+}
+ 
 }
