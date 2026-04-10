@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Alat;
 use App\Models\Carts;
-use App\Models\Service;   // TAMBAHKAN INI
+use App\Models\Service;   
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -13,11 +13,25 @@ class CartController extends Controller
     {
         $alat = Alat::findOrFail($id);
 
+        // ambil durasi dari button
+        $durasi = $request->btn ?? 24;
+
+        if ($durasi == 24) {
+            $harga = $alat->harga24;
+        } elseif ($durasi == 48) {
+            $harga = $alat->harga48 ?? ($alat->harga24 * 2);
+        } elseif ($durasi == 72) {
+            $harga = $alat->harga72 ?? ($alat->harga24 * 3);
+        } else {
+            $harga = $alat->harga24;
+            $durasi = 24;
+        }
+
         $cart = new Carts();
         $cart->user_id = $userId;
         $cart->alat_id = $alat->id;
-        $cart->harga = $alat->harga24;
-        $cart->durasi = 24;
+        $cart->harga = $harga;
+        $cart->durasi = $durasi;
 
         $cart->save();
 

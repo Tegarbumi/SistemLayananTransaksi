@@ -16,7 +16,9 @@ class Alat extends Model
         'deskripsi',
         'kategori_id',
         'harga24',
-        'gambar'
+        'gambar',
+        'harga48',
+        'harga72'
     ];
 
     // relasi ke kategori

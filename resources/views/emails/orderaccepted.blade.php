@@ -27,7 +27,7 @@ Setelah pembayaran, silakan upload bukti bayar pada website.
 
 @if($item->alat_id)
 
-| {{ $item->alat->nama_alat }} | {{ $item->durasi }} Jam | @money($item->harga) |
+| {{ $item->alat->nama_alat }} | {{ $item->durasi / 24 }} Hari | @money($item->harga) |
 
 @elseif($item->service_id)
 

@@ -158,7 +158,7 @@ Reject Terpilih
 <td></td>
 <td class="text-end"><b>Total</b></td>
 <td class="text-end">
-    <b>@money($detail->where('status', 2)->sum('harga'))</b>
+    <b>@money($detail->where('status', '!=', 3)->sum('harga'))</b>
 </td>
 </tr>
 

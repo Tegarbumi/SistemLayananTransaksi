@@ -8,17 +8,20 @@
         <link rel="stylesheet" href="/js/fullcalendar/main.css">
         <script src="/js/fullcalendar/main.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     </head>
     <body>
         <div class="container">
             @if (session()->has('success'))
-            <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
+            <div class="alert alert-success alert-dismissible fade show mt-4">
                 {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
             @endif
+
             <div class="row justify-content-center mt-4">
+
+                <!-- KIRI -->
                 <div class="col-md-12 col-lg-4">
                     <div class="card mb-4 shadow">
                         <div class="card-header">
@@ -26,68 +29,132 @@
                                 <i class="fas fa-arrow-left"></i> <a href="{{ route('home') }}" class="link-dark">Kembali</a>
                             @elseif (Auth::user()->role == 0)
                                 <i class="fas fa-arrow-left"></i> <a href="{{ route('member.index') }}" class="link-dark">Kembali</a>
-                            @elseif (Auth::user()->role != 0)
+                            @else
                                 <i class="fas fa-arrow-left"></i> <a href="{{ url()->previous() }}" class="link-dark">Kembali</a>
                             @endif
                         </div>
-                        <img class="card-img-top" src="{{ url('') }}/images/{{ $detail->gambar }}" alt="">
+
+                        <img class="card-img-top" src="{{ url('') }}/images/{{ $detail->gambar }}">
+
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item">@money( $detail->harga24 )<span class="badge bg-light text-dark" style="float: right;">24 Jam</span></li>
-                            
+
+                            <li class="list-group-item">
+                                @money($detail->harga24)
+                                <span class="badge bg-light text-dark float-end">24 Jam</span>
+                            </li>
+
+                            <li class="list-group-item">
+                                @money($detail->harga48 ?? ($detail->harga24 * 2))
+                                <span class="badge bg-light text-dark float-end">48 Jam</span>
+                            </li>
+
+                            <li class="list-group-item">
+                                @money($detail->harga72 ?? ($detail->harga24 * 3))
+                                <span class="badge bg-light text-dark float-end">72 Jam</span>
+                            </li>
+
                         </ul>
                     </div>
                 </div>
+
+                <!-- KANAN -->
                 <div class="col-md-12 col-lg-8 mb-4">
                     <div class="card h-100 shadow">
                         <div class="card-body">
-                            <h4><span class="badge bg-warning">{{ $detail->category->nama_kategori }}</span></h4>
+
+                            <h4>
+                                <span class="badge bg-warning">
+                                    {{ $detail->category->nama_kategori }}
+                                </span>
+                            </h4>
+
                             <h1><b>{{ $detail->nama_alat }}</b></h1>
+
                             <p class="text-muted">{{ $detail->deskripsi }}</p>
+
                             @if (Auth::check() && Auth::user()->role == 0)
+
                             <form action="{{ route('cart.store',['id' => $detail->id, 'userId' => Auth::user()->id]) }}" method="POST">
                                 @csrf
-                                <div class="d-flex">
-                                    <button type="submit" class="btn btn-success mx-2" name="btn" value="24"><i class="fas fa-shopping-cart"></i> @money($detail->harga24) <b>24jam</b></button>
-                                    <button type="submit" class="btn btn-success mx-2" name="btn" value="12"><i class="fas fa-shopping-cart"></i> @money($detail->harga12) <b>12jam</b></button>
-                                    <button type="submit" class="btn btn-success mx-2" name="btn" value="6"><i class="fas fa-shopping-cart"></i> @money($detail->harga6) <b>6jam</b></button>
+
+                                <div class="d-flex flex-wrap">
+
+                                    <!-- 24 JAM -->
+                                    <button type="submit" class="btn btn-success m-1" name="btn" value="24">
+                                        <i class="fas fa-shopping-cart"></i>
+                                        @money($detail->harga24) <b>24 jam</b>
+                                    </button>
+
+                                    <!-- 48 JAM -->
+                                    <button type="submit" class="btn btn-success m-1" name="btn" value="48">
+                                        <i class="fas fa-shopping-cart"></i>
+                                        @money($detail->harga48 ?? ($detail->harga24 * 2)) <b>48 jam</b>
+                                    </button>
+
+                                    <!-- 72 JAM -->
+                                    <button type="submit" class="btn btn-success m-1" name="btn" value="72">
+                                        <i class="fas fa-shopping-cart"></i>
+                                        @money($detail->harga72 ?? ($detail->harga24 * 3)) <b>72 jam</b>
+                                    </button>
+
                                 </div>
+
                             </form>
-                            <p class="text-muted">Anda sedang login sebagai <b>{{ Auth::user()->name }}</b></p>
+
+                            <p class="text-muted">
+                                Anda sedang login sebagai <b>{{ Auth::user()->name }}</b>
+                            </p>
+
                             @endif
+
                             <hr>
+
                             <h6><i>Daftar Pinjaman Mendatang</i></h6>
+
                             <table class="table">
                                 <thead>
-                                  <tr>
-                                    <th>Tanggal Keluar</th>
-                                    <th>Tanggal Kembali</th>
-                                  </tr>
+                                    <tr>
+                                        <th>Tanggal Keluar</th>
+                                        <th>Tanggal Kembali</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($order as $item)
                                     <tr>
                                         @if ($item->payment->status == 3)
-                                        <td>{{ date('d M Y H:i', strtotime($item->starts)) }} <span class="badge bg-secondary">{{ $item->durasi }} Jam</span></td>
-                                        <td>{{ date('d M Y H:i', strtotime($item->ends)) }}</td>
+                                        <td>
+                                            {{ date('d M Y H:i', strtotime($item->starts)) }}
+                                            <span class="badge bg-secondary">{{ $item->durasi }} Jam</span>
+                                        </td>
+                                        <td>
+                                            {{ date('d M Y H:i', strtotime($item->ends)) }}
+                                        </td>
                                         @endif
                                     </tr>
                                     @endforeach
                                 </tbody>
                             </table>
+
                         </div>
+
                         <div class="card-body">
                             <div id="calendar"></div>
                         </div>
+
                     </div>
                 </div>
+
             </div>
         </div>
-        <script type="text/javascript">
+
+        <script>
             var endpoint = "/api/kalender-alat/";
             var param = {!! $detail->id !!};
             var withParam = endpoint+param;
+
             document.addEventListener('DOMContentLoaded', function() {
                 var calendarEl = document.getElementById('calendar');
+
                 var calendar = new FullCalendar.Calendar(calendarEl, {
                     initialView: 'dayGridMonth',
                     height: 500,
@@ -110,8 +177,10 @@
                         center: 'title',
                     }
                 });
+
                 calendar.render();
             });
         </script>
+
     </body>
 </html>

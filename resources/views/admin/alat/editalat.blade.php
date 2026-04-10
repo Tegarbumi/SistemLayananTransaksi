@@ -50,7 +50,7 @@
 
                                 <div class="row d-flex w-100 justify-content-start">
 
-                                    <!-- HANYA HARGA 24 JAM -->
+                                    <!-- 24 JAM -->
                                     <div class="input-group mb-3">
                                         <span class="input-group-text">Rp</span>
 
@@ -63,6 +63,36 @@
 
                                         <span class="input-group-text">
                                             <b>/24 jam</b>
+                                        </span>
+                                    </div>
+
+                                    <!-- 48 JAM -->
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text">Rp</span>
+
+                                        <input type="number"
+                                            value="{{ $alat->harga48 }}"
+                                            name="harga48"
+                                            class="form-control"
+                                            placeholder="Harga 48 jam">
+
+                                        <span class="input-group-text">
+                                            <b>/48 jam</b>
+                                        </span>
+                                    </div>
+
+                                    <!-- 72 JAM -->
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text">Rp</span>
+
+                                        <input type="number"
+                                            value="{{ $alat->harga72 }}"
+                                            name="harga72"
+                                            class="form-control"
+                                            placeholder="Harga 72 jam">
+
+                                        <span class="input-group-text">
+                                            <b>/72 jam</b>
                                         </span>
                                     </div>
 

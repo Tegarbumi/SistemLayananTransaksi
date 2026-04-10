@@ -80,19 +80,22 @@ href="{{ route('home.detail',['id'=>$item->id]) }}">
 
 <div class="d-block">
 
+<!-- 24 JAM -->
 <button type="submit" class="btn btn-success w-100 mt-2" name="btn" value="24">
 <i class="fas fa-shopping-cart"></i>
 @money($item->harga24) <b>24 jam</b>
 </button>
 
-<button type="submit" class="btn btn-success w-100 mt-2" name="btn" value="12">
+<!-- 48 JAM -->
+<button type="submit" class="btn btn-success w-100 mt-2" name="btn" value="48">
 <i class="fas fa-shopping-cart"></i>
-@money($item->harga12) <b>12 jam</b>
+@money($item->harga48 ?? ($item->harga24 * 2)) <b>48 jam</b>
 </button>
 
-<button type="submit" class="btn btn-success w-100 mt-2" name="btn" value="6">
+<!-- 72 JAM -->
+<button type="submit" class="btn btn-success w-100 mt-2" name="btn" value="72">
 <i class="fas fa-shopping-cart"></i>
-@money($item->harga6) <b>6 jam</b>
+@money($item->harga72 ?? ($item->harga24 * 3)) <b>72 jam</b>
 </button>
 
 </div>

@@ -87,8 +87,22 @@
 
                                         <li class="list-group-item">
                                             @money($alat->harga24)
-                                            <span class="badge bg-light text-dark" style="float:right;">
+                                            <span class="badge bg-light text-dark float-end">
                                                 24 Jam
+                                            </span>
+                                        </li>
+
+                                        <li class="list-group-item">
+                                            @money($alat->harga48)
+                                            <span class="badge bg-light text-dark float-end">
+                                                48 Jam
+                                            </span>
+                                        </li>
+
+                                        <li class="list-group-item">
+                                            @money($alat->harga72)
+                                            <span class="badge bg-light text-dark float-end">
+                                                72 Jam
                                             </span>
                                         </li>
 
@@ -171,11 +185,24 @@
                             Harga ditulis angka saja
                         </span>
 
+                        <!-- 24 JAM -->
                         <input type="number"
                             name="harga24"
-                            class="form-control"
+                            class="form-control mb-2"
                             placeholder="Harga / 24 Jam"
                             required>
+
+                        <!-- 48 JAM -->
+                        <input type="number"
+                            name="harga48"
+                            class="form-control mb-2"
+                            placeholder="Harga / 48 Jam">
+
+                        <!-- 72 JAM -->
+                        <input type="number"
+                            name="harga72"
+                            class="form-control"
+                            placeholder="Harga / 72 Jam">
 
                     </div>
 

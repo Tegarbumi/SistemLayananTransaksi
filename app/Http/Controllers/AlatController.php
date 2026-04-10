@@ -46,6 +46,8 @@ class AlatController extends Controller
             'nama' => 'required',
             'kategori' => 'required',
             'harga24' => 'required|numeric',
+            'harga48' => 'nullable|numeric',
+            'harga72' => 'nullable|numeric',
             'gambar' => 'image|mimes:jpg,png,jpeg,gif,svg|max:2048'
         ]);
 
@@ -54,6 +56,8 @@ class AlatController extends Controller
         $alat->deskripsi = $request['deskripsi'];
         $alat->kategori_id = $request['kategori'];
         $alat->harga24 = $request['harga24'];
+        $alat->harga48 = $request['harga48'];
+        $alat->harga72 = $request['harga72'];
 
         if($request->hasFile('gambar')) {
             $gambar = $request->file('gambar');
@@ -73,6 +77,8 @@ class AlatController extends Controller
             'nama' => 'required',
             'kategori' => 'required',
             'harga24' => 'required|numeric',
+            'harga48' => 'nullable|numeric',
+            'harga72' => 'nullable|numeric',
             'gambar' => 'image|mimes:jpg,png,jpeg,gif,svg|max:2048'
         ]);
 
@@ -81,6 +87,8 @@ class AlatController extends Controller
         $alat->deskripsi = $request['deskripsi'];
         $alat->kategori_id = $request['kategori'];
         $alat->harga24 = $request['harga24'];
+        $alat->harga48 = $request['harga48'];
+        $alat->harga72 = $request['harga72'];
 
         if($request->hasFile('gambar')) {
             $gambar = $request->file('gambar');
@@ -91,10 +99,21 @@ class AlatController extends Controller
 
         $alat->save();
 
-        // Update harga di cart hanya untuk durasi 24 jam
-        $cart = new Carts();
-        $cart->where('alat_id',$id)->where('durasi',24)->update([
+        // ================= UPDATE CART =================
+
+        // 24 JAM
+        Carts::where('alat_id',$id)->where('durasi',24)->update([
             'harga' => $alat->harga24
+        ]);
+
+        // 48 JAM
+        Carts::where('alat_id',$id)->where('durasi',48)->update([
+            'harga' => $alat->harga48 ?? ($alat->harga24 * 2)
+        ]);
+
+        // 72 JAM
+        Carts::where('alat_id',$id)->where('durasi',72)->update([
+            'harga' => $alat->harga72 ?? ($alat->harga24 * 3)
         ]);
 
         return redirect(route('alat.index'))->with('message', 'Alat berhasil diperbarui!');
@@ -109,7 +128,6 @@ class AlatController extends Controller
             unlink($filepath);
         }
 
-        // 
         $payment = new Payment();
         $order = Order::where('alat_id', $id)->get();
 

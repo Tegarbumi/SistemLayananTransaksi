@@ -2,34 +2,27 @@
 @section('container')
 
 @if (session()->has('success'))
-
 <div class="alert alert-success">
-{{ session('success') }}
+    {{ session('success') }}
 </div>
-
 @endif
 
 <form action="">
-
 <div class="input-group mb-3">
+    <input type="text"
+        class="form-control"
+        placeholder="Cari Produk"
+        name="search"
+        value="{{ request('search') }}">
 
-<input type="text"
-class="form-control"
-placeholder="Cari Produk"
-name="search"
-value="{{ request('search') }}">
-
-<button class="btn btn-secondary">
-Cari
-</button>
-
+    <button class="btn btn-secondary">
+        Cari
+    </button>
 </div>
-
 </form>
 
 
 <!-- KATALOG ALAT -->
-
 <div class="card shadow">
 
 <div class="card-header">
@@ -71,10 +64,23 @@ href="{{ route('home.detail',['id'=>$item->id]) }}">
 
 <hr>
 
-<div class="d-flex justify-content-between">
-<small><b>@money($item->harga24)</b></small>
-<small><b>24 jam</b></small>
-</div>
+<!-- HARGA -->
+<ul class="list-group list-group-flush">
+<li class="list-group-item">
+    @money($item->harga24)
+    <span class="float-end">1 Hari</span>
+</li>
+
+<li class="list-group-item">
+    @money($item->harga48)
+    <span class="float-end">2 Hari</span>
+</li>
+
+<li class="list-group-item">
+    @money($item->harga72)
+    <span class="float-end">3 Hari</span>
+</li>
+</ul>
 
 </div>
 
@@ -83,9 +89,15 @@ href="{{ route('home.detail',['id'=>$item->id]) }}">
 <form action="{{ route('cart.store',['id'=>$item->id,'userId'=>Auth::user()->id]) }}" method="POST">
 @csrf
 
+<select name="btn" class="form-select mb-2">
+    <option value="24">1 Hari</option>
+    <option value="48">2 Hari</option>
+    <option value="72">3 Hari</option>
+</select>
+
 <button class="btn btn-primary w-100">
-<i class="fas fa-shopping-cart"></i>
-Tambah
+    <i class="fas fa-shopping-cart"></i>
+    Tambah
 </button>
 
 </form>
@@ -106,7 +118,6 @@ Tambah
 
 
 <!-- KATALOG LAYANAN -->
-
 <div class="card shadow mt-4">
 
 <div class="card-header">
@@ -153,7 +164,6 @@ Layanan
 <div class="card-footer">
 
 <form action="{{ route('cart.service.store',['id'=>$service->id,'userId'=>Auth::user()->id]) }}" method="POST">
-
 @csrf
 
 <button class="btn btn-success w-100">
@@ -170,145 +180,6 @@ Tambah
 </div>
 
 @endforeach
-
-</div>
-
-</div>
-
-</div>
-
-
-
-<!-- PANEL KERANJANG
-
-<div id="keranjang">
-
-<div class="card border-0 rounded-0">
-
-<div class="card-header bg-dark text-white d-flex justify-content-between">
-
-<b>Keranjang</b>
-
-<button class="btn btn-sm btn-light"
-onclick="toggleCart()">
-X
-</button>
-
-</div> -->
-
-
-<div class="card-body">
-
-<div class="list-group">
-
-@forelse ($carts as $item)
-
-<div class="list-group-item">
-
-<div class="d-flex justify-content-between">
-
-<h6>
-
-@if($item->alat_id)
-
-    {{ $item->alat->nama_alat }}
-
-@elseif($item->service_id)
-
-    {{ $item->service->nama_layanan }}
-
-@endif
-
-</h6>
-
-<b>@money($item->harga)</b>
-
-</div>
-
-<div class="d-flex justify-content-between">
-
-<p>
-
-@if($item->alat_id)
-
-    {{ $item->durasi }} Jam
-
-@elseif($item->service_id)
-
-    {{ $item->service->durasi }}
-
-@endif
-
-</p>
-
-<form action="{{ route('cart.destroy',['id'=>$item->id]) }}" method="POST">
-
-@method('DELETE')
-@csrf
-
-<button class="btn btn-danger btn-sm">
-<i class="fas fa-trash"></i>
-</button>
-
-</form>
-
-</div>
-
-</div>
-
-@empty
-
-<p class="text-center">
-Keranjang masih kosong
-</p>
-
-@endforelse
-
-</div>
-
-</div>
-
-
-<div class="card-body">
-
-<div class="d-flex justify-content-between mb-2">
-
-<b>Total</b>
-
-<b>@money($total)</b>
-
-</div>
-
-
-<form action="{{ route('order.create') }}" method="POST">
-
-@csrf
-
-<small>Tanggal Pengambilan</small>
-
-<input type="date"
-name="start_date"
-class="form-control mb-2"
-required>
-
-
-<small>Jam Pengambilan</small>
-
-<input type="time"
-name="start_time"
-class="form-control mb-3"
-required>
-
-
-<button type="submit"
-class="btn btn-success w-100"
-{{ (Auth::user()->cart->count() == 0) ? 'disabled' : '' }}>
-
-Checkout
-
-</button>
-
-</form>
 
 </div>
 

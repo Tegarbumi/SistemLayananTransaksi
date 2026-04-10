@@ -228,7 +228,20 @@ Layanan
 <h6>{{ $alat->nama_alat }}</h6>
 </div>
 <ul class="list-group list-group-flush">
-<li class="list-group-item">@money($alat->harga24)<span class="float-end">24 Jam</span></li>
+<li class="list-group-item">
+    @money($alat->harga24)
+    <span class="float-end">1 Hari</span>
+</li>
+
+<li class="list-group-item">
+    @money($alat->harga48)
+    <span class="float-end">2 Hari</span>
+</li>
+
+<li class="list-group-item">
+    @money($alat->harga72)
+    <span class="float-end">3 Hari</span>
+</li>
 </ul>
 <div class="card-footer">
 <a href="{{ route('home.detail',['id'=>$alat->id]) }}" class="btn btn-sm btn-secondary">Detail</a>
@@ -325,9 +338,9 @@ Pesan Sekarang
 <script>
 const hero = document.getElementById("heroSlider");
 const images = [
-"/images/slider/1.jpeg",
-"/images/slider/2.jpeg",
-"/images/slider/3.jpeg"
+"/images/slider/alt1.png",
+"/images/slider/alt2.png",
+"/images/slider/alt3.png"
 ];
 let i = 0;
 function slideBg(){

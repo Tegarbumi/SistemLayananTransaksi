@@ -74,7 +74,7 @@ body{
 <div class="container-fluid">
 
 <a class="navbar-brand">
-<i class="fas fa-mountain"></i> Sans Adventure
+<i class="fas fa-mountain"></i> Sanss Adventure
 </a>
 
 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
@@ -202,7 +202,7 @@ X
 
 </h6>
 
-<b>@money($item->harga)</b>
+@money($item->harga)
 
 </div>
 
@@ -211,7 +211,15 @@ X
 <p>
 
 @if($item->alat_id)
-    {{ $item->durasi }} Jam
+    @if($item->durasi == 24)
+        1 Hari
+    @elseif($item->durasi == 48)
+        2 Hari
+    @elseif($item->durasi == 72)
+        3 Hari
+    @else
+        {{ $item->durasi }} Jam
+    @endif
 @elseif($item->service_id)
     {{ $item->service->durasi }}
 @endif
@@ -251,7 +259,7 @@ Keranjang masih kosong
 
 <b>Total</b>
 
-<b>@money($total ?? 0)</b>
+@money($total ?? 0)
 
 </div>
 
