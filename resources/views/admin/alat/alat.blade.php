@@ -62,16 +62,17 @@
                     </div>
 
                     <div class="card-body" style="max-height:500px; overflow:scroll;">
-                        <div class="row row-cols-sm-2 row-cols-lg-6 g-2">
+                        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-3">
 
                             @foreach ($alats as $alat)
 
                             <div class="col-6">
 
-                                <div class="card h-100">
+                               <div class="card h-100 d-flex flex-column">
 
                                     <img class="card-img-top"
-                                        src="{{ url('') }}/images/{{ $alat->gambar }}">
+                                    src="{{ url('') }}/images/{{ $alat->gambar }}"
+                                    style="height:140px; object-fit:cover;">
 
                                     <div class="card-body">
                                         <span class="badge bg-warning">
@@ -88,27 +89,27 @@
                                         <li class="list-group-item">
                                             @money($alat->harga24)
                                             <span class="badge bg-light text-dark float-end">
-                                                24 Jam
+                                                1 Hari
                                             </span>
                                         </li>
 
                                         <li class="list-group-item">
                                             @money($alat->harga48)
                                             <span class="badge bg-light text-dark float-end">
-                                                48 Jam
+                                                2 Hari
                                             </span>
                                         </li>
 
                                         <li class="list-group-item">
                                             @money($alat->harga72)
                                             <span class="badge bg-light text-dark float-end">
-                                                72 Jam
+                                                3 Hari
                                             </span>
                                         </li>
 
                                     </ul>
 
-                                    <div class="card-footer">
+                                    <div class="card-footer mt-auto">
                                         <div class="btn-group">
                                             <a href="{{ route('alat.edit',['id'=>$alat->id]) }}"
                                                 class="btn btn-sm btn-primary">
@@ -189,20 +190,20 @@
                         <input type="number"
                             name="harga24"
                             class="form-control mb-2"
-                            placeholder="Harga / 24 Jam"
+                            placeholder="Harga / 1 Hari"
                             required>
 
                         <!-- 48 JAM -->
                         <input type="number"
                             name="harga48"
                             class="form-control mb-2"
-                            placeholder="Harga / 48 Jam">
+                            placeholder="Harga / 2 Hari">
 
                         <!-- 72 JAM -->
                         <input type="number"
                             name="harga72"
                             class="form-control"
-                            placeholder="Harga / 72 Jam">
+                            placeholder="Harga / 3 Hari">
 
                     </div>
 

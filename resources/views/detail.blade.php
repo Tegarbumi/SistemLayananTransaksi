@@ -40,17 +40,17 @@
 
                             <li class="list-group-item">
                                 @money($detail->harga24)
-                                <span class="badge bg-light text-dark float-end">24 Jam</span>
+                                <span class="badge bg-light text-dark float-end">1 Hari</span>
                             </li>
 
                             <li class="list-group-item">
                                 @money($detail->harga48 ?? ($detail->harga24 * 2))
-                                <span class="badge bg-light text-dark float-end">48 Jam</span>
+                                <span class="badge bg-light text-dark float-end">2 Hari</span>
                             </li>
 
                             <li class="list-group-item">
                                 @money($detail->harga72 ?? ($detail->harga24 * 3))
-                                <span class="badge bg-light text-dark float-end">72 Jam</span>
+                                <span class="badge bg-light text-dark float-end">3 Hari</span>
                             </li>
 
                         </ul>
