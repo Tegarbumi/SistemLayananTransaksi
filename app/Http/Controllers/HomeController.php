@@ -25,7 +25,7 @@ class HomeController extends Controller
 
         $alats = $alats->get();
 
-        return view('home2',[
+        return view('home',[
             'alats' => $alats,
             'categories' => Category::all(),
             'services' => Service::all()
