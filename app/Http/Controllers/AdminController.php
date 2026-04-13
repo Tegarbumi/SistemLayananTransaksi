@@ -39,24 +39,30 @@ class AdminController extends Controller
     }
 
     public function adminmanagement() {
-        $user = User::with(['payment'])->get();
+        
+       $admin = User::where('role', '>', 0)
+            ->orderBy('role', 'desc') 
+            ->get();
 
-        return view('admin.user.admin_management',[
-            'admin' => $user->where('role', 1),
-            'user' => $user->where('role', 0)
-        ]);
+    return view('admin.user.admin_management',[
+    'admin' => $admin,
+]);
+        
     }
 
     public function newUser(Request $request) {
         $validated = $request->validate([
-            'name' => 'required|max:255',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:5|max:255',
-            'telepon' => 'required|max:15'
-        ]);
+    'name' => 'required|max:255',
+    'email' => 'required|email|unique:users,email',
+    'password' => 'required|min:5|max:255',
+    'telepon' => 'required|max:15',
+    'role' => 'required|in:0,1,2'
+]);
 
         $validated['password'] = Hash::make($validated['password']);
-        User::create($validated);
+        $validated['role'] = $request->role ?? 0;
+
+User::create($validated);
         $request->session()->flash('registrasi', 'Registrasi Berhasil, Silakan login untuk mulai menyewa');
 
         return redirect(route('admin.user'));

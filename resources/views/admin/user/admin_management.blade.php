@@ -17,79 +17,15 @@
     <div class="row">
         <div class="col-12">
             <button type="button" class="btn btn-success mt-4" data-bs-toggle="modal" data-bs-target="#addNewUser">
-                Tambah User
+                Tambah Admin
             </button>
         </div>
     </div>
 
     <div class="row">
 
-        {{-- USER LIST --}}
-        <div class="col-lg-6 col-md-12">
-            <div class="card shadow mt-4">
-
-                <div class="card-header">
-                    <b>User</b>
-                </div>
-
-                <div class="card-body">
-
-                    <table id="dataTable" class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>No.</th>
-                                <th>Nama</th>
-                                <th>Email</th>
-                                <th>Telepon</th>
-                                <th>Tindakan</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            @foreach ($user as $item)
-                            <tr>
-
-                                <td>{{ $loop->iteration }}</td>
-
-                                <td>
-                                    {{ $item->name }}
-                                    <span class="badge bg-secondary">
-                                        {{ $item->payment->count() }} Transaksi
-                                    </span>
-                                </td>
-
-                                <td>{{ $item->email }}</td>
-
-                                <td>{{ $item->telepon }}</td>
-
-                                <td>
-                                    <form action="{{ route('user.promote', ['id' => $item->id]) }}" method="POST">
-                                        @csrf
-                                        @method('PATCH')
-
-                                        <button
-                                            type="submit"
-                                            class="btn btn-success btn-sm"
-                                            onclick="return confirm('Jadikan user ini sebagai admin?')"
-                                        >
-                                            Jadikan Admin
-                                        </button>
-
-                                    </form>
-                                </td>
-
-                            </tr>
-                            @endforeach
-                        </tbody>
-
-                    </table>
-
-                </div>
-            </div>
-        </div>
-
         {{-- ADMIN LIST --}}
-        <div class="col-lg-6 col-md-12">
+        <div class="col-lg-12 col-md-12">
             <div class="card shadow mt-4">
 
                 <div class="card-header">
@@ -118,9 +54,15 @@
                                 <td>{{ $loop->iteration }}</td>
 
                                 <td>
-                                    <b>{{ $item->name }}</b>
-                                    ({{ $item->email }})
-                                </td>
+    <b>{{ $item->name }}</b>
+    ({{ $item->email }})
+
+    @if($item->role == 2)
+        <span class="badge bg-danger ms-2">Admin</span>
+    @elseif($item->role == 1)
+        <span class="badge bg-warning text-dark ms-2">Kasir</span>
+    @endif
+</td>
 
                                 <td>{{ $item->telepon }}</td>
 
@@ -128,18 +70,23 @@
 
                                     @if ($item->id != Auth::user()->id)
 
-                                    <form action="{{ route('user.demote',['id' => $item->id]) }}" method="POST">
+                                   <form action="{{ route('user.delete',['id' => $item->id]) }}" method="POST">
+    @csrf
+    @method('DELETE')
+
+    <button
+        type="submit"
+        class="btn btn-danger btn-sm"
+        title="Hapus user ini"
+        onclick="return confirm('Yakin ingin menghapus admin ini?')" >
+        Hapus
+    </button>
+</form>
 
                                         @csrf
                                         @method('PATCH')
 
-                                        <button
-                                            type="submit"
-                                            class="btn btn-danger btn-sm"
-                                            onclick="return confirm('Cabut hak admin user ini?')"
-                                        >
-                                            Cabut Admin
-                                        </button>
+                                       
 
                                     </form>
 
@@ -173,7 +120,7 @@
         <div class="modal-content">
 
             <div class="modal-header">
-                <h5 class="modal-title">User Baru</h5>
+                <h5 class="modal-title">Admin Baru</h5>
 
                 <button
                     type="button"
@@ -238,6 +185,14 @@
 
                         <label for="floatingtelp">Nomor Telepon</label>
                     </div>
+                    <div>
+                    <label>Pilih Role</label>
+                   <select name="role" class="form-control">
+                    <option value="1">Kasir</option>
+                    <option value="2">Admin</option>
+                    </select>
+                    
+                </div>
 
 
                     <button type="submit" class="btn btn-success w-100 mt-3">

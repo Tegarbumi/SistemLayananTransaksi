@@ -49,6 +49,21 @@ class UserController extends Controller
 
         return back()->with('updated', 'Berhasil melakukan perubahan');
     }
+  public function destroy($id)
+{
+    $user = User::findOrFail($id);
+
+    if ($user->id == Auth::id()) {
+        return back()->with('error', 'Tidak bisa menghapus akun sendiri');
+    }
+    if ($user->id == 1) {
+        return back()->with('error', 'Admin utama tidak bisa dihapus');
+    }
+
+    $user->delete();
+
+    return back()->with('success', 'User berhasil dihapus');
+}
 
     public function changePassword(Request $request) {
         $user = User::find(Auth::id());

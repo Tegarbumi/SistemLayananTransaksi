@@ -28,7 +28,24 @@
                                 <td>{{ $item->name }} <span class="badge bg-secondary">{{ $item->payment->count() }} Transaksi</span></td>
                                 <td>{{ $item->email }}</td>
                                 <td>{{ $item->telepon }}</td>
-                                <td><a class="btn btn-success" href="{{ route('admin.buatreservasi',['userId' => $item->id]) }}">Buat Reservasi</a></td>
+                                <td>
+    <a class="btn btn-success btn-sm" href="{{ route('admin.buatreservasi',['userId' => $item->id]) }}">
+        Buat Reservasi
+    </a>
+
+    <form action="{{ route('user.delete',['id' => $item->id]) }}" method="POST" style="display:inline;">
+        @csrf
+        @method('DELETE')
+
+        <button
+            type="submit"
+            class="btn btn-danger btn-sm"
+            onclick="return confirm('Yakin ingin menghapus user ini?')"
+        >
+            Hapus
+        </button>
+    </form>
+</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -65,6 +82,7 @@
                         <input type="text" name="telepon" class="form-control" id="floatingtelp" placeholder="Nomor Telepon" required>
                         <label for="floatingtelp">No Telepon</label>
                     </div>
+             
                     <button type="submit" class="btn btn-success w-100 mt-4">Daftar</button>
                 </form>
             </div>

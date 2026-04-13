@@ -351,5 +351,14 @@ slideBg();
 setInterval(slideBg,4000);
 </script>
 
+@if(session('error'))
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+    loginModal.show();
+});
+</script>
+@endif
+
 </body>
 </html>

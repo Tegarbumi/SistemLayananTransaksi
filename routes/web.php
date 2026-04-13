@@ -23,6 +23,8 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\GrafikController;
 
+
+
 /*
 |--------------------------------------------------------------------------
 | PUBLIC AREA
@@ -33,6 +35,7 @@ Route::get('/', [HomeController::class,'index'])->name('home');
 Route::get('/detail/{id}', [HomeController::class,'detail'])->name('home.detail');
 
 Route::post('/login',[AuthController::class,'authenticate']);
+
 
 Route::get('/daftar',[RegisterController::class,'index'])->name('daftar');
 Route::post('/daftar',[RegisterController::class,'store'])->name('register.store');
@@ -182,6 +185,7 @@ Route::middleware(['auth','admin'])->group(function () {
 
         Route::patch('/user/promote/{id}',[UserController::class,'promote'])->name('user.promote');
         Route::patch('/user/demote/{id}',[UserController::class,'demote'])->name('user.demote');
+        Route::delete('/user/delete/{id}', [UserController::class, 'destroy'])->name('user.delete');
 /*
         |--------------------------------------------------------------------------
         | GRAFIK
