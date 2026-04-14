@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Apr 11, 2026 at 07:09 AM
+-- Generation Time: Apr 14, 2026 at 09:13 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -47,8 +47,8 @@ CREATE TABLE `alats` (
 INSERT INTO `alats` (`id`, `kategori_id`, `nama_alat`, `deskripsi`, `harga24`, `harga48`, `harga72`, `gambar`, `created_at`, `updated_at`) VALUES
 (33, 1, 'Tenda Borneo', 'Tenda Borneo Kapasitas 1-4 Orang (Double Layer)', 45000, 90000, 135000, '1773065129-9175a4974f40b4bedb1380088740c9c2.png', '2026-03-09 13:39:54', '2026-03-09 14:05:29'),
 (34, 1, 'Tenda Wildshell', 'Tenda Wildshell Kapasitas 1-4 Orang (Double Layer)', 50000, 100000, 150000, '1773065750-tenda_jaya_dipa-min_1763450042162.png', '2026-03-09 14:15:50', '2026-03-09 14:15:50'),
-(35, 2, 'Carrier', 'Dengan kompartemen yang luas.', 35000, 70000, 105000, '1773066062-5cb974d4dc04751201e1c4648cf85611.jpeg', '2026-03-09 14:21:02', '2026-03-11 09:26:34'),
-(36, 2, 'Hydropack', 'Dengan kantong air (hydration bladder).', 20000, 40000, 60000, '1773067212-id-11134207-7r98w-luokxy9jrzih52.jpg', '2026-03-09 14:40:12', '2026-03-11 09:27:21'),
+(35, 2, 'Carrier', 'Tas dengan kompartemen yang luas.', 35000, 70000, 105000, '1773066062-5cb974d4dc04751201e1c4648cf85611.jpeg', '2026-03-09 14:21:02', '2026-04-11 12:25:40'),
+(36, 2, 'Hydropack', 'Tas dengan kantong air (hydration bladder).', 20000, 40000, 60000, '1773067212-id-11134207-7r98w-luokxy9jrzih52.jpg', '2026-03-09 14:40:12', '2026-04-11 12:25:52'),
 (37, 2, 'Day Pack', 'Tas tahan air dengan kompartemen yang luas.', 25000, 50000, 75000, '1773067242-images.jpg', '2026-03-09 14:40:42', '2026-03-11 09:30:47'),
 (38, 3, 'Kompor Portebel Mini Windproof', 'Kompor praktis yang mudah dibawa kemana - mana.', 15000, 30000, 45000, '1773067745-KOMPOR-WINDPROOF.png', '2026-03-09 14:48:08', '2026-03-11 09:32:22'),
 (39, 3, 'Kompor Portebel 2in1', 'Kompor Portable 2In1 dengan gas LPG 3KG/12KG.', 25000, 50000, 75000, '1773068205-beca06e71e8c43ef0468e9981ce131d8.jpg', '2026-03-09 14:56:45', '2026-03-11 09:30:18'),
@@ -356,7 +356,18 @@ INSERT INTO `orders` (`id`, `alat_id`, `service_id`, `user_id`, `payment_id`, `d
 (278, 34, NULL, 18, 81, 72, '2026-04-11 12:52:00', '2026-04-14 12:52:00', 150000, 2, '2026-04-11 04:51:07', '2026-04-11 04:51:24', 0),
 (279, 36, NULL, 18, 81, 72, '2026-04-11 12:52:00', '2026-04-14 12:52:00', 60000, 2, '2026-04-11 04:51:07', '2026-04-11 04:51:24', 0),
 (280, 36, NULL, 18, 81, 72, '2026-04-11 12:52:00', '2026-04-14 12:52:00', 60000, 2, '2026-04-11 04:51:07', '2026-04-11 04:51:24', 0),
-(281, 43, NULL, 18, 81, 0, '2026-04-11 12:52:00', '2026-04-11 12:52:00', 0, 2, '2026-04-11 04:51:07', '2026-04-11 04:51:24', 1);
+(281, 43, NULL, 18, 81, 0, '2026-04-11 12:52:00', '2026-04-11 12:52:00', 0, 2, '2026-04-11 04:51:07', '2026-04-11 04:51:24', 1),
+(282, 33, NULL, 18, 82, 72, '2026-04-13 11:13:00', '2026-04-16 11:13:00', 135000, 1, '2026-04-11 13:13:34', '2026-04-11 13:13:34', 0),
+(283, 34, NULL, 18, 82, 24, '2026-04-13 11:13:00', '2026-04-14 11:13:00', 50000, 1, '2026-04-11 13:13:34', '2026-04-11 13:13:34', 0),
+(284, 34, NULL, 18, 82, 24, '2026-04-13 11:13:00', '2026-04-14 11:13:00', 50000, 1, '2026-04-11 13:13:34', '2026-04-11 13:13:34', 0),
+(285, 35, NULL, 18, 83, 24, '2026-04-14 20:52:00', '2026-04-15 20:52:00', 35000, 2, '2026-04-13 12:51:54', '2026-04-13 12:52:14', 0),
+(286, 33, NULL, 18, 83, 24, '2026-04-14 20:52:00', '2026-04-15 20:52:00', 45000, 2, '2026-04-13 12:51:54', '2026-04-13 12:52:14', 0),
+(287, 33, NULL, 18, 83, 72, '2026-04-14 20:52:00', '2026-04-17 20:52:00', 135000, 2, '2026-04-13 12:51:55', '2026-04-13 12:52:14', 0),
+(288, 36, NULL, 18, 83, 72, '2026-04-14 20:52:00', '2026-04-17 20:52:00', 60000, 2, '2026-04-13 12:51:55', '2026-04-13 12:52:14', 0),
+(289, 34, NULL, 18, 83, 72, '2026-04-14 20:52:00', '2026-04-17 20:52:00', 150000, 2, '2026-04-13 12:51:55', '2026-04-13 12:52:14', 0),
+(290, 34, NULL, 18, 83, 24, '2026-04-14 20:52:00', '2026-04-15 20:52:00', 50000, 2, '2026-04-13 12:51:55', '2026-04-13 12:52:14', 0),
+(291, 34, NULL, 18, 83, 24, '2026-04-14 20:52:00', '2026-04-15 20:52:00', 50000, 2, '2026-04-13 12:51:55', '2026-04-13 12:52:14', 0),
+(292, 43, NULL, 18, 83, 0, '2026-04-14 20:52:00', '2026-04-14 20:52:00', 0, 2, '2026-04-13 12:51:55', '2026-04-13 12:52:14', 1);
 
 -- --------------------------------------------------------
 
@@ -369,6 +380,29 @@ CREATE TABLE `password_resets` (
   `token` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `password_resets`
+--
+
+INSERT INTO `password_resets` (`email`, `token`, `created_at`) VALUES
+('rs6514493@gmail.com', 'gnhvWi07sjY2YFazk9cNF8mf1ganHNVK3LnvkQnfSxfK1pQdDFWxlI6Yjqhnc8bM', '2026-04-11 07:43:29'),
+('rs6514493@gmail.com', 'GylZ933QRjNYBx68lT548rJhhU0an7VBNnFhGFd053lnnZR6Hz6AWBj1jXfH3WnN', '2026-04-12 13:58:36'),
+('rs6514493@gmail.com', 'FIBwsuiEkmizRQfuCRmg7kOWEjG3qulx3baybwLWY5d2rmeRSVig2EE7Fme4nzEZ', '2026-04-12 13:58:43'),
+('rs6514493@gmail.com', 'MqzP44bXGqJaRptI2SNKDnKmcb827wvExqYpvctpdoeuxelZbb5u2GwYL8v4LJGZ', '2026-04-12 13:58:46'),
+('rs6514493@gmail.com', 'K14KbIdl0lyNzI4O531Uc7tdD1Ke9eSt5yp8zAN0ERtzfEDgTR4avvOtzPq3TqIj', '2026-04-12 13:58:51'),
+('rs6514493@gmail.com', 'zZ4mj1LiTpRijpqLQemXiXXoofyAizkbMlOV2a4mafWSQCnsczSx24oERf2QbSoR', '2026-04-12 13:58:55'),
+('rs6514493@gmail.com', 'FruYrF7LTepmUHjxg6ITAhaffH63tTNaUTOukfi7AwMB63OywP8m7yYhTSUtpESn', '2026-04-12 13:58:58'),
+('rs6514493@gmail.com', 'YN0ldCCYpZxDsq2wlT4qdVyc0R86HxWXEoVlfIemhFzeUZlotTSnOijc1DlSH67N', '2026-04-12 13:59:03'),
+('rs6514493@gmail.com', 'NDC3RFdljKnqh7suuNNablOOf4deQZeqTwsz1uWJV0lY0m21oHtLbepzXqytbmrr', '2026-04-12 13:59:08'),
+('rs6514493@gmail.com', '5CWGX0RzD7SyDJzo3q6rLE8tGMwIGW0uRvSBDYRfjnwl6SQsORbsqtFeyTstV5tn', '2026-04-12 13:59:12'),
+('rs6514493@gmail.com', '1jgVqNNcZQndH0bQpq1aw9XzGofmT4lsMSTHwl8fJHnhvsc7EHImadAJCpNIixqZ', '2026-04-12 13:59:17'),
+('rs6514493@gmail.com', 'VKqOemxylUVQhX7UpKnFXDbuVyQfyDpSP8vHUpcdK7FWTiKK67i2H2iTxxUrFmsx', '2026-04-12 13:59:22'),
+('rs6514493@gmail.com', 'p8j3nGwb38fWblFYCUYhY7rUk0RUIPS7806Ba6LLaWMX5Z058mhiegykAdZKaF8f', '2026-04-12 13:59:27'),
+('rs6514493@gmail.com', 'O0fWQoveclGwtRoJfRZScEvS42K9HDlrzYb0CQVTju9UOsQ0zmHvnLzUMRpH5Ewq', '2026-04-12 13:59:32'),
+('rs6514493@gmail.com', 'LqMYenNVEv7sRWbOdwEb0DEbC5FDuvjbYeOkXKRFKwK2FJSAZARFA6kq6wl4lFk4', '2026-04-12 13:59:37'),
+('rs6514493@gmail.com', 'P3u5Oqdzmag2URt8zmBuuYPUXci2SWuAvIuqG1Shwm2S4wDlEZzzFiOE4t6xpFaP', '2026-04-12 13:59:41'),
+('rs6514493@gmail.com', 'w02bAVGjAcSZqCMUvhVHN9giNwq2ZftjQHNdUVEs5qWH34SUGaBh2fvJ3KsVMndu', '2026-04-12 13:59:46');
 
 -- --------------------------------------------------------
 
@@ -439,7 +473,9 @@ INSERT INTO `payments` (`id`, `no_invoice`, `user_id`, `total`, `bukti`, `bukti_
 (74, '10/1775649882', 10, 385500, '1775650009_bukti_sketsa.jpeg', NULL, '1775650009_ktp_sketsa.jpeg', 5, '2026-04-08 12:04:42', '2026-04-08 12:07:08'),
 (75, '10/1775650090', 10, 35000, '1775650136_bukti_sketsa.jpeg', NULL, '1775650136_ktp_sketsa.jpeg', 5, '2026-04-08 12:08:10', '2026-04-08 12:09:24'),
 (80, '18/1775655345', 18, 500000, '1775655722_bukti_BMC.jpeg', '1775655806_denda_BMC.jpeg', '1775655722_ktp_BMC.jpeg', 5, '2026-04-08 13:35:45', '2026-04-11 04:53:00'),
-(81, '18/1775883067', 18, 515000, '1775883154_bukti_WhatsApp Image 2026-04-09 at 19.38.21.jpeg', NULL, '1775883154_ktp_WhatsApp Image 2026-04-09 at 19.38.21.jpeg', 5, '2026-04-11 04:51:07', '2026-04-11 05:07:57');
+(81, '18/1775883067', 18, 515000, '1775883154_bukti_WhatsApp Image 2026-04-09 at 19.38.21.jpeg', NULL, '1775883154_ktp_WhatsApp Image 2026-04-09 at 19.38.21.jpeg', 5, '2026-04-11 04:51:07', '2026-04-11 05:07:57'),
+(82, '18/1775913214', 18, 235000, NULL, NULL, NULL, 1, '2026-04-11 13:13:34', '2026-04-11 13:13:34'),
+(83, '18/1776084714', 18, 525000, '1776084774_bukti_pngtree-bicycle-logo-icon-vector-png-image_5227905.png', NULL, '1776084774_ktp_Activity Diagram-Login.drawio.png', 5, '2026-04-13 12:51:54', '2026-04-13 12:53:17');
 
 -- --------------------------------------------------------
 
@@ -492,13 +528,16 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `telepon`, `role`, `remember_token`, `created_at`, `updated_at`) VALUES
 (1, 'admin', 'admin@gmail.com', NULL, '$2b$12$S2XUkS7s0oZUsdj5B4/L3ew9ICzZQX.R./6EB2./1tJ4ihyBUtx52', NULL, 2, NULL, NULL, NULL),
-(10, 'Tegar Bumi', 'tegarbumi10@gmail.com', NULL, '$2y$10$YsCHla1/j3Hg.vQWhA8mwuEvlEaeVi5oNTYHN1kXZDeT1KbSJ.RNu', '089646756511', 0, NULL, '2026-03-09 15:37:40', '2026-04-05 03:19:20'),
+(10, 'Tegar Bumi', 'tegarbumi10@gmail.com', NULL, '$2y$10$ppQJ/2NsfF6dnPsDcnPrg.UhNR24jXuxNw.cFRuPonGU.qIB4uMOe', '089646756511', 0, NULL, '2026-03-09 15:37:40', '2026-04-11 07:49:50'),
 (13, 'Kasir Sanss', 'kasir@gmail.com', NULL, '$2y$10$7agxtDOwtx6DAruc8y3toesx.OzwOj2qAgNdeSqucs1Q7sdxQG0Dy', '099545445', 1, NULL, '2026-03-11 09:12:55', '2026-03-11 09:14:24'),
 (14, 'amir', 'forriyus@gmail.com', NULL, '$2y$10$aJ6Z3aWosbRgMFZralFgM.XYbc4TxbgS/4Y9C51LHynMYf3HIkJWK', '0895806690705', 2, NULL, '2026-03-11 16:07:47', '2026-03-11 17:33:49'),
 (15, 'forriyus', 'rifplodsjunior90@gmail.com', NULL, '$2y$10$g8TQAwQZxvEzrfteMSbBN..gHiS4YOuHpmZAQEdMmxm1n1SEH7kkK', '123456789', 0, NULL, '2026-03-11 17:15:37', '2026-03-11 17:15:37'),
 (16, 'coba dulu', 'coba@gmail.com', NULL, '$2y$10$lCUx9FYdWaG/LfOBUuNr0eNs1vDlbHg6eIPfD5m46rk1PuS8ES9eC', '0853511806533', 0, NULL, '2026-03-31 03:21:38', '2026-03-31 03:21:38'),
 (17, 'capstone', 'capstone@gmail.com', NULL, '$2y$10$15nIvl4XLPOYKhvtTlMeWuL/8Ym3fa6REOf2yBp1MrliWZJkzkZMm', '123123213', 0, NULL, '2026-04-06 17:21:23', '2026-04-06 17:45:31'),
-(18, 'Rangga Sandi Saputra', 'rs6514493@gmail.com', NULL, '$2y$10$GrZlLsbCNHRiQXfp.ZIw6uV/rifp3aDqODLNpjaMX2/fI7J.ILqa.', '08522963509', 0, NULL, '2026-04-08 10:18:20', '2026-04-08 10:18:20');
+(18, 'Rangga Sandi Saputra', 'rs6514493@gmail.com', NULL, '$2y$10$TvnImZ0g9B2Z/sSuGg1sH.D56Fpi7/WCwfdguI2m1xtRFbNE589Vu', '08522963509', 0, NULL, '2026-04-08 10:18:20', '2026-04-11 07:42:23'),
+(24, 'Kadut', 'tegarbumi.9e@gmail.com', NULL, '$2y$10$Ym2SIZpLknt5Sypm98LwbOziEubGw8AxUHdv1Ybocypk2MNJ8VyS6', '2327328323', 0, NULL, '2026-04-13 09:52:41', '2026-04-13 09:52:41'),
+(25, 'randi', 'randi@gmail.com', NULL, '$2y$10$RsZYEb7H.d04ngY2qR35Eeo9kJaTe/Ds9/sT6O5gpEWBMC27UZX5m', '2212516215', 2, NULL, '2026-04-13 09:53:30', '2026-04-13 09:53:30'),
+(26, 'Admin Capstone', 'Capstoneadm@gmail.com', NULL, '$2y$10$J92EqI0pgUOH3AJIbQwQQOrX9zRwcE12bGbt/gaSjBb0FanJyEJBi', '12345678', 2, NULL, '2026-04-13 11:26:28', '2026-04-13 11:26:28');
 
 --
 -- Indexes for dumped tables
@@ -594,7 +633,7 @@ ALTER TABLE `alats`
 -- AUTO_INCREMENT for table `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=277;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=287;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -624,13 +663,13 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=282;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=293;
 
 --
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
 
 --
 -- AUTO_INCREMENT for table `services`
@@ -642,7 +681,7 @@ ALTER TABLE `services`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- Constraints for dumped tables
