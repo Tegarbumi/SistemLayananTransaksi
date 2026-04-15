@@ -56,86 +56,100 @@
 
 <div id="layoutSidenav">
 
-    <!-- ================= SIDEBAR ================= -->
-    <div id="layoutSidenav_nav">
-        <nav class="sb-sidenav accordion sb-sidenav-dark">
+   <!-- ================= SIDEBAR ================= -->
+<div id="layoutSidenav_nav">
+    <nav class="sb-sidenav accordion sb-sidenav-dark">
 
-            <div class="sb-sidenav-menu">
-                <div class="nav">
+        <div class="sb-sidenav-menu">
+            <div class="nav">
 
-                    <!-- Dashboard -->
-                    <a class="nav-link {{ Route::is('admin.index') ? 'active' : '' }}" href="{{ route('admin.index') }}">
-                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                        Dashboard
-                    </a>
-                    <a class="nav-link {{ Route::is('admin.grafik') ? 'active' : '' }}" href="{{ route('admin.grafik') }}">
-                     <div class="sb-nav-link-icon"><i class="fas fa-chart-line"></i></div>
-                        Grafik Pemasukan
-                    </a>
+                {{-- ================= ADMIN ONLY ================= --}}
+                @if(Auth::user()->role == 2)
 
-                    <!-- Reservasi -->
-                    <div class="sb-sidenav-menu-heading">Manajemen Reservasi</div>
+                <a class="nav-link {{ Route::is('admin.index') ? 'active' : '' }}" href="{{ route('admin.index') }}">
+                    <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                    Dashboard
+                </a>
 
-                    <button type="button" class="btn btn-success nav-link text-start mb-1" data-bs-toggle="modal" data-bs-target="#cetakLaporanModal">
-                        <i class="fas fa-print me-2"></i>Cetak Laporan
-                    </button>
+                <a class="nav-link {{ Route::is('admin.grafik') ? 'active' : '' }}" href="{{ route('admin.grafik') }}">
+                    <div class="sb-nav-link-icon"><i class="fas fa-chart-line"></i></div>
+                    Grafik Pemasukan
+                </a>
 
-                    <a class="nav-link {{ Route::is('penyewaan.index') ? 'active' : '' }}" href="{{ route('penyewaan.index') }}">
-                        <div class="sb-nav-link-icon"><i class="fas fa-clipboard-list"></i></div>
-                        Reservasi
-                    </a>
+                @endif
 
-                    <a class="nav-link {{ Route::is('riwayat-reservasi') ? 'active' : '' }}" href="{{ route('riwayat-reservasi') }}">
-                        <div class="sb-nav-link-icon"><i class="fas fa-history"></i></div>
-                        Riwayat Reservasi
-                    </a>
 
-                    <!-- Penyewa -->
-                    <div class="sb-sidenav-menu-heading">Manajemen Penyewa</div>
+                {{-- ================= RESERVASI (ADMIN + KASIR) ================= --}}
+                <div class="sb-sidenav-menu-heading">Manajemen Reservasi</div>
 
-                    <a class="nav-link {{ Route::is('admin.user') ? 'active' : '' }}" href="{{ route('admin.user') }}">
-                        <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
-                        Daftar Penyewa
-                    </a>
+                @if(Auth::user()->role == 2)
+                <button type="button" class="btn btn-success nav-link text-start mb-1"
+                        data-bs-toggle="modal" data-bs-target="#cetakLaporanModal">
+                    <i class="fas fa-print me-2"></i>Cetak Laporan
+                </button>
+                @endif
 
-                    @if (Auth::user()->role == 2)
+                <a class="nav-link {{ Route::is('penyewaan.index') ? 'active' : '' }}"
+                   href="{{ route('penyewaan.index') }}">
+                    <div class="sb-nav-link-icon"><i class="fas fa-clipboard-list"></i></div>
+                    Reservasi
+                </a>
 
-                    <!-- Super Admin -->
-                    <a class="nav-link {{ Route::is('superuser.admin') ? 'active' : '' }}" href="{{ route('superuser.admin') }}">
-                        <div class="sb-nav-link-icon"><i class="fas fa-user-shield"></i></div>
-                        Manajemen Admin
-                    </a>
+                <a class="nav-link {{ Route::is('riwayat-reservasi') ? 'active' : '' }}"
+                   href="{{ route('riwayat-reservasi') }}">
+                    <div class="sb-nav-link-icon"><i class="fas fa-history"></i></div>
+                    Riwayat Reservasi
+                </a>
 
-                    <!-- Alat -->
-                    <div class="sb-sidenav-menu-heading">Manajemen Produk</div>
 
-                    <a class="nav-link {{ Route::is('alat.index') ? 'active' : '' }}" href="{{ route('alat.index') }}">
-                        <div class="sb-nav-link-icon"><i class="fas fa-campground"></i></div>
-                        Alat
-                    </a>
+                {{-- ================= ADMIN ONLY ================= --}}
+                @if(Auth::user()->role == 2)
 
-                    <a class="nav-link {{ Route::is('kategori.index') ? 'active' : '' }}" href="{{ route('kategori.index') }}">
-                        <div class="sb-nav-link-icon"><i class="fas fa-list"></i></div>
-                        Kategori
-                    </a>
+                <div class="sb-sidenav-menu-heading">Manajemen Penyewa</div>
 
-                    <a class="nav-link {{ Route::is('services.index') ? 'active' : '' }}" href="{{ route('services.index') }}">
-                        <div class="sb-nav-link-icon"><i class="fas fa-concierge-bell"></i></div>
-                        Layanan
-                    </a>
+                <a class="nav-link {{ Route::is('admin.user') ? 'active' : '' }}" href="{{ route('admin.user') }}">
+                    <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
+                    Daftar Penyewa
+                </a>
 
-                    @endif
+                <a class="nav-link {{ Route::is('superuser.admin') ? 'active' : '' }}" href="{{ route('superuser.admin') }}">
+                    <div class="sb-nav-link-icon"><i class="fas fa-user-shield"></i></div>
+                    Manajemen Admin
+                </a>
 
-                </div>
+                <div class="sb-sidenav-menu-heading">Manajemen Produk</div>
+
+                <a class="nav-link {{ Route::is('alat.index') ? 'active' : '' }}" href="{{ route('alat.index') }}">
+                    <div class="sb-nav-link-icon"><i class="fas fa-campground"></i></div>
+                    Alat
+                </a>
+
+                <a class="nav-link {{ Route::is('kategori.index') ? 'active' : '' }}" href="{{ route('kategori.index') }}">
+                    <div class="sb-nav-link-icon"><i class="fas fa-list"></i></div>
+                    Kategori
+                </a>
+
+                <a class="nav-link {{ Route::is('services.index') ? 'active' : '' }}" href="{{ route('services.index') }}">
+                    <div class="sb-nav-link-icon"><i class="fas fa-concierge-bell"></i></div>
+                    Layanan
+                </a>
+
+                @endif
+
             </div>
+        </div>
 
-            <div class="sb-sidenav-footer text-center">
-                <div class="small">Logged in as:</div>
-                <strong>{{ Auth::user()->name }}</strong>
-            </div>
+       <div class="sb-sidenav-footer text-center">
+    <div class="small text-muted">Login sebagai</div>
 
-        </nav>
-    </div>
+
+    <span class="badge bg-danger mt-1" style="font-size: 10px;">
+        {{ Auth::user()->role == 2 ? 'Admin' : 'Kasir' }}
+    </span>
+</div>
+
+    </nav>
+</div>
 
     <!-- ================= CONTENT ================= -->
     <div id="layoutSidenav_content">

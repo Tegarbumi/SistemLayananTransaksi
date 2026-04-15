@@ -53,7 +53,7 @@ body{
 <div class="col-md-6 d-none d-md-block register-left">
 <div class="overlay d-flex flex-column justify-content-center">
 <h2 class="fw-bold">Sewa Peralatan Camping Lebih Mudah</h2>
-<p>Cek ketersediaan, reservasi, bayar, ambil dan kembalikan seperti dengan <a class=" text-decoration-none text-light fw-bold">AMAN</a>.</p>
+<p>Harap lakukan registrasi terlebih dahulu untuk melakukan <a class=" text-decoration-none text-light fw-bold">reservasi</a>.</p>
 </div>
 </div>
 

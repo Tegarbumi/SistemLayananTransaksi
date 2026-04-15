@@ -57,7 +57,12 @@ class UserController extends Controller
 
         $request->validate([
             'name' => 'required|max:255',
-            'email' => 'required|email|unique:users,email,' . $user->id,
+            'email' => [
+            'required',
+            'email',
+            'regex:/^[a-zA-Z0-9._%+-]+@gmail\.com$/',
+            'unique:users,email,' . $user->id
+            ],
             'telepon' => 'required|max:15'
         ]);
 
@@ -85,25 +90,37 @@ class UserController extends Controller
     }
 
     public function updateUser(Request $request, $id)
-    {
-        $user = User::findOrFail($id);
+{
+    $user = User::findOrFail($id);
 
-        $request->validate([
-            'name' => 'required|max:255',
-            'email' => 'required|email|unique:users,email,' . $user->id,
-            'telepon' => 'required|max:15',
-            'role' => 'required'
-        ]);
+    $validator = \Validator::make($request->all(), [
+        'name' => 'required|max:255',
+        'email' => [
+            'required',
+            'email',
+            'regex:/^[a-zA-Z0-9._%+-]+@gmail\.com$/',
+            'unique:users,email,' . $user->id
+        ],
+        'telepon' => 'required|max:15',
+        'role' => 'required'
+    ]);
 
-        $user->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'telepon' => $request->telepon,
-            'role' => $request->role
-        ]);
-
-        return back()->with('success', 'User berhasil diupdate');
+    if ($validator->fails()) {
+        return back()
+            ->withErrors($validator)
+            ->withInput()
+            ->with('error_user_id', $id); 
     }
+
+    $user->update([
+        'name' => $request->name,
+        'email' => $request->email,
+        'telepon' => $request->telepon,
+        'role' => $request->role
+    ]);
+
+    return back()->with('success', 'User berhasil diupdate');
+}
 
 
     /*

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Alat;
+use App\Models\Service;
 use App\Models\Carts;
 use App\Models\Category;
 use App\Models\Order;
@@ -30,7 +31,9 @@ class AdminController extends Controller
     }
 
     public function usermanagement() {
-
+         if (Auth::user()->role != 2) {
+        abort(403);
+    }
         $user = User::with(['payment'])->get();
 
         return view('admin.user.user',[
@@ -39,7 +42,9 @@ class AdminController extends Controller
     }
 
     public function adminmanagement() {
-        
+    if (Auth::user()->role != 2) {
+        abort(403);
+    }
        $admin = User::where('role', '>', 0)
             ->orderBy('role', 'desc') 
             ->get();
@@ -51,9 +56,17 @@ class AdminController extends Controller
     }
 
     public function newUser(Request $request) {
+           if (Auth::user()->role != 2) {
+        abort(403);
+         }
         $validated = $request->validate([
     'name' => 'required|max:255',
-    'email' => 'required|email|unique:users,email',
+    'email' => [
+    'required',
+    'email',
+    'regex:/^[a-zA-Z0-9._%+-]+@gmail\.com$/',
+    'unique:users,email'
+    ],
     'password' => 'required|min:5|max:255',
     'telepon' => 'required|max:15',
     'role' => 'required|in:0,1,2'
@@ -62,20 +75,25 @@ class AdminController extends Controller
         $validated['password'] = Hash::make($validated['password']);
         $validated['role'] = $request->role ?? 0;
 
-User::create($validated);
-        $request->session()->flash('registrasi', 'Registrasi Berhasil, Silakan login untuk mulai menyewa');
+   User::create($validated);
 
-        return redirect(route('admin.user'));
+    if ($validated['role'] == 0) {
+    return redirect(route('admin.user'));
+    }   else {
+    return redirect(route('admin.adminmanagement'));
+    }
     }
 
     public function newOrderIndex($userId) {
         $user = User::find($userId);
         $alat = Alat::with(['category'])->get();
+        $service = Service::all();
         $cart = Carts::with(['user'])->where('user_id', $userId)->get();
 
         return view('admin.penyewaan.reservasibaru',[
             'user' => $user,
             'alat' => $alat,
+            'service' => $service,
             'cart' => $cart,
             'total' => $cart->sum('harga')
         ]);

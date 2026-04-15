@@ -7,8 +7,8 @@
 5. Last, Run the app `php artisan serve`
 
 ||Login Akun||
-Admin = gmail : admin@gmail.com pass : password
-Kasir/pegawai = gmail : kasir@gmail.com pass : password
+Admin = gmail : admin@gmail.com pass : Password
+Kasir = gmail : kasir@gmail.com pass : Password
 
 ## Status
 

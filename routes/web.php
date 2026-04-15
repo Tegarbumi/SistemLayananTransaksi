@@ -171,14 +171,15 @@ Route::middleware(['auth','admin'])->group(function () {
         Route::get('/buat-reservasi/{userId}',[AdminController::class,'newOrderIndex'])->name('admin.buatreservasi');
 
         Route::post('/buat-reservasi/order/{userId}',[AdminController::class,'createNewOrder'])->name('admin.createorder');
-
+        Route::post('/cart/service/{id}/{userId}', [CartController::class, 'storeService'])->name('cart.store.service');
 
         /*
         |--------------------------------------------------------------------------
         | USER MANAGEMENT
         |--------------------------------------------------------------------------
         */
-
+        Route::get('/admin/admin-management', [AdminController::class, 'adminmanagement'])
+         ->name('admin.adminmanagement');
         Route::get('/usermanagement',[AdminController::class,'usermanagement'])->name('admin.user');
 
         Route::post('/usermanagement/new',[AdminController::class,'newUser'])->name('user.new');
