@@ -9,78 +9,151 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function promote($id) {
-        $user = User::find($id);
+    /*
+    =========================
+    ROLE MANAGEMENT
+    =========================
+    */
+
+    public function promote($id)
+    {
+        $user = User::findOrFail($id);
+
         $user->update([
-            'role' => 1,
+            'role' => 1, // admin
         ]);
 
-        return back();
+        return back()->with('success', 'User dijadikan Admin');
     }
 
-    public function demote($id) {
-        $user = User::find($id);
+    public function demote($id)
+    {
+        $user = User::findOrFail($id);
+
         $user->update([
-            'role' => 0,
+            'role' => 0, // user biasa / kasir
         ]);
 
-        return back();
+        return back()->with('success', 'Role berhasil diubah');
     }
 
-    public function edit() {
-        return view('account',[
-            'user' => User::find(Auth::id())
+
+    /*
+    =========================
+    EDIT AKUN SENDIRI
+    =========================
+    */
+
+    public function edit()
+    {
+        return view('account', [
+            'user' => User::findOrFail(Auth::id())
         ]);
     }
 
-    public function update(Request $request) {
-        $user = User::find(Auth::id());
+    public function update(Request $request)
+    {
+        $user = User::findOrFail(Auth::id());
 
-        $this->validate($request,[
+        $request->validate([
             'name' => 'required|max:255',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users,email,' . $user->id,
             'telepon' => 'required|max:15'
         ]);
 
-        $user->name = $request['name'];
-        $user->email = $request['email'];
-        $user->telepon = $request['telepon'];
-        $user->save();
-
-        return back()->with('updated', 'Berhasil melakukan perubahan');
-    }
-  public function destroy($id)
-{
-    $user = User::findOrFail($id);
-
-    if ($user->id == Auth::id()) {
-        return back()->with('error', 'Tidak bisa menghapus akun sendiri');
-    }
-    if ($user->id == 1) {
-        return back()->with('error', 'Admin utama tidak bisa dihapus');
-    }
-
-    $user->delete();
-
-    return back()->with('success', 'User berhasil dihapus');
-}
-
-    public function changePassword(Request $request) {
-        $user = User::find(Auth::id());
-
-        $this->validate($request,[
-            'oldPassword' => 'required',
-            'newPassword' => 'required',
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'telepon' => $request->telepon
         ]);
 
-        if(Hash::check($request['oldPassword'], $user->password)) {
-            $user->update([
-                'password' => Hash::make($request['newPassword'])
-            ]);
-            return back()->with('updated','Password berhasil diubah');
-        } else {
-            return back()->with('message','Password saat ini salah');
+        return back()->with('success', 'Data berhasil diupdate');
+    }
+
+
+    /*
+    =========================
+    EDIT USER (OLEH ADMIN)
+    =========================
+    */
+
+    public function editUser($id)
+    {
+        $user = User::findOrFail($id);
+
+        return response()->json($user); // untuk modal edit
+    }
+
+    public function updateUser(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        $request->validate([
+            'name' => 'required|max:255',
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'telepon' => 'required|max:15',
+            'role' => 'required'
+        ]);
+
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'telepon' => $request->telepon,
+            'role' => $request->role
+        ]);
+
+        return back()->with('success', 'User berhasil diupdate');
+    }
+
+
+    /*
+    =========================
+    DELETE USER
+    =========================
+    */
+
+    public function destroy($id)
+    {
+        $user = User::findOrFail($id);
+
+        if ($user->id == Auth::id()) {
+            return back()->with('error', 'Tidak bisa menghapus akun sendiri');
         }
 
+        if ($user->id == 1) {
+            return back()->with('error', 'Admin utama tidak bisa dihapus');
+        }
+
+        $user->delete();
+
+        return back()->with('success', 'User berhasil dihapus');
+    }
+
+
+    /*
+    =========================
+    CHANGE PASSWORD
+    =========================
+    */
+
+    public function changePassword(Request $request)
+    {
+        $user = User::findOrFail(Auth::id());
+
+        $request->validate([
+            'oldPassword' => 'required',
+            'newPassword' => 'required|min:6'
+        ]);
+
+        if (Hash::check($request->oldPassword, $user->password)) {
+
+            $user->update([
+                'password' => Hash::make($request->newPassword)
+            ]);
+
+            return back()->with('success', 'Password berhasil diubah');
+        } else {
+            return back()->with('error', 'Password lama salah');
+        }
     }
 }

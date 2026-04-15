@@ -186,6 +186,7 @@ Route::middleware(['auth','admin'])->group(function () {
         Route::patch('/user/promote/{id}',[UserController::class,'promote'])->name('user.promote');
         Route::patch('/user/demote/{id}',[UserController::class,'demote'])->name('user.demote');
         Route::delete('/user/delete/{id}', [UserController::class, 'destroy'])->name('user.delete');
+        Route::put('/user/update/{id}', [UserController::class, 'updateUser'])->name('user.update');
 /*
         |--------------------------------------------------------------------------
         | GRAFIK
