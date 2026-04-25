@@ -115,19 +115,6 @@ method="POST">
 @method('DELETE')
 @csrf
 
-<div class="alert alert-danger">
-
-<b>Danger Zone: menghapus layanan tidak dapat dikembalikan</b>
-
-<button class="btn btn-danger"
-onclick="return confirm('Anda yakin akan menghapus layanan ini?');"
-type="submit">
-
-Hapus
-
-</button>
-
-</div>
 
 </form>
 

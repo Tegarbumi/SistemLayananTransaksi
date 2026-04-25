@@ -80,7 +80,7 @@
 
 
                 {{-- ================= RESERVASI (ADMIN + KASIR) ================= --}}
-                <div class="sb-sidenav-menu-heading">Manajemen Reservasi</div>
+                <div class="sb-sidenav-menu-heading">Kelola Reservasi</div>
 
                 @if(Auth::user()->role == 2)
                 <button type="button" class="btn btn-success nav-link text-start mb-1"
@@ -105,19 +105,19 @@
                 {{-- ================= ADMIN ONLY ================= --}}
                 @if(Auth::user()->role == 2)
 
-                <div class="sb-sidenav-menu-heading">Manajemen Penyewa</div>
+                <div class="sb-sidenav-menu-heading">Kelola User</div>
 
                 <a class="nav-link {{ Route::is('admin.user') ? 'active' : '' }}" href="{{ route('admin.user') }}">
                     <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
-                    Daftar Penyewa
+                    Daftar Customer
                 </a>
 
                 <a class="nav-link {{ Route::is('superuser.admin') ? 'active' : '' }}" href="{{ route('superuser.admin') }}">
                     <div class="sb-nav-link-icon"><i class="fas fa-user-shield"></i></div>
-                    Manajemen Admin
+                    Daftar Admin
                 </a>
 
-                <div class="sb-sidenav-menu-heading">Manajemen Produk</div>
+                <div class="sb-sidenav-menu-heading">Kelola Produk</div>
 
                 <a class="nav-link {{ Route::is('alat.index') ? 'active' : '' }}" href="{{ route('alat.index') }}">
                     <div class="sb-nav-link-icon"><i class="fas fa-campground"></i></div>

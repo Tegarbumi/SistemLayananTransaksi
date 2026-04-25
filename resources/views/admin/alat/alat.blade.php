@@ -2,10 +2,10 @@
 @section('content')
 <main>
     <div class="container-fluid px-4">
-        <h1 class="mt-4">Manajemen Alat</h1>
+        <h1 class="mt-4">Kelola Alat</h1>
 
         <ol class="breadcrumb mb-4">
-            <li class="breadcrumb-item active">Manajemen Alat</li>
+            <li class="breadcrumb-item active">Kelola Alat</li>
         </ol>
 
         <div class="row">
@@ -110,13 +110,29 @@
                                     </ul>
 
                                     <div class="card-footer mt-auto">
-                                        <div class="btn-group">
-                                            <a href="{{ route('alat.edit',['id'=>$alat->id]) }}"
-                                                class="btn btn-sm btn-primary">
-                                                Edit
-                                            </a>
-                                        </div>
-                                    </div>
+    <div class="btn-group">
+
+        <!-- Tombol Edit -->
+        <a href="{{ route('alat.edit',['id'=>$alat->id]) }}"
+            class="btn btn-sm btn-primary">
+            Edit
+        </a>
+
+        <!-- Tombol Hapus -->
+        <form action="{{ route('alat.destroy',['id'=>$alat->id]) }}"
+              method="POST"
+              onsubmit="return confirm('Yakin ingin menghapus alat ini?');">
+
+            @csrf
+            @method('DELETE')
+
+            <button type="submit" class="btn btn-sm btn-danger ms-2">
+                Hapus
+            </button>
+        </form>
+
+    </div>
+</div>
 
                                 </div>
 

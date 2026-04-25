@@ -3,10 +3,10 @@
 <main>
 <div class="container-fluid px-4">
 
-<h1 class="mt-4">Manajemen Layanan</h1>
+<h1 class="mt-4">Kelola Layanan</h1>
 
 <ol class="breadcrumb mb-4">
-<li class="breadcrumb-item active">Manajemen Layanan</li>
+<li class="breadcrumb-item active">Kelola Layanan</li>
 </ol>
 
 <div class="row">
@@ -72,18 +72,30 @@ src="{{ url('') }}/images/services/{{ $service->gambar }}">
 </ul>
 
 <div class="card-footer">
+    <div class="btn-group">
 
-<div class="btn-group">
+        <!-- Tombol Edit -->
+        <a href="{{ route('services.edit',['id'=>$service->id]) }}"
+        class="btn btn-sm btn-primary">
+            Edit
+        </a>
 
-<a href="{{ route('services.edit',['id'=>$service->id]) }}"
-class="btn btn-sm btn-primary">
-Edit
-</a>
+        <!-- Tombol Hapus -->
+        <form action="{{ route('services.destroy',['id'=>$service->id]) }}"
+              method="POST"
+              onsubmit="return confirm('Yakin ingin menghapus layanan ini?');">
 
+            @csrf
+            @method('DELETE')
+
+            <button type="submit" class="btn btn-sm btn-danger ms-1">
+                Hapus
+            </button>
+
+        </form>
+
+    </div>
 </div>
-
-</div>
-
 </div>
 
 </div>
