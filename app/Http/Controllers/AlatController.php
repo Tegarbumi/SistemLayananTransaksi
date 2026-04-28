@@ -101,17 +101,17 @@ class AlatController extends Controller
 
         // ================= UPDATE CART =================
 
-        // 24 JAM
+     
         Carts::where('alat_id',$id)->where('durasi',24)->update([
             'harga' => $alat->harga24
         ]);
 
-        // 48 JAM
+     
         Carts::where('alat_id',$id)->where('durasi',48)->update([
             'harga' => $alat->harga48 ?? ($alat->harga24 * 2)
         ]);
 
-        // 72 JAM
+     
         Carts::where('alat_id',$id)->where('durasi',72)->update([
             'harga' => $alat->harga72 ?? ($alat->harga24 * 3)
         ]);

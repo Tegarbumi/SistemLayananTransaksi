@@ -9,35 +9,7 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    /*
-    =========================
-    ROLE MANAGEMENT
-    =========================
-    */
-
-    public function promote($id)
-    {
-        $user = User::findOrFail($id);
-
-        $user->update([
-            'role' => 1, // admin
-        ]);
-
-        return back()->with('success', 'User dijadikan Admin');
-    }
-
-    public function demote($id)
-    {
-        $user = User::findOrFail($id);
-
-        $user->update([
-            'role' => 0, // user biasa / kasir
-        ]);
-
-        return back()->with('success', 'Role berhasil diubah');
-    }
-
-
+ 
     /*
     =========================
     EDIT AKUN SENDIRI
@@ -86,7 +58,7 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
 
-        return response()->json($user); // untuk modal edit
+        return response()->json($user); 
     }
 
     public function updateUser(Request $request, $id)

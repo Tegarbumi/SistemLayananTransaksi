@@ -109,7 +109,7 @@ class OrderController extends Controller
         try {
             Mail::to($payment->user->email)->send(new OrderAccepted($payment));
         } catch (\Exception $e) {
-            // silent fail
+            
         }
 
         return back();

@@ -11,12 +11,12 @@ class RentController extends Controller
     public function index() {
 
         $all = Payment::with(['user','order','dendas'])
-                ->whereNotIn('status', [5]) // hanya exclude selesai
+                ->whereNotIn('status', [5]) 
                 ->orderBy('id','DESC')
                 ->get();
 
-        $denda = $all->where('status', 4); // ada denda
-        $normal = $all->whereIn('status', [1,2,3]); // normal
+        $denda = $all->where('status', 4); 
+        $normal = $all->whereIn('status', [1,2,3]); 
 
         $penyewaan = $denda->merge($normal);
 
