@@ -23,7 +23,7 @@ class OrderController extends Controller
         $this->service = $service;
     }
 
-    // ================= MEMBER =================
+    // ================= CUSTOMER =================
     public function show()
     {
         $payments = Payment::with(['user', 'order', 'dendas'])
@@ -34,7 +34,7 @@ class OrderController extends Controller
         $reservasi = $payments->where('status', 4)
             ->merge($payments->whereNotIn('status', [4, 5]));
 
-        return view('member.reservasi', [
+        return view('customer.reservasi', [
             'reservasi' => $reservasi,
             'riwayat' => $payments->whereIn('status', [5])
         ]);
@@ -52,7 +52,7 @@ class OrderController extends Controller
         $totalDenda = $payment->dendas->sum('jumlah');
         $grandTotal = $total + $totalDenda;
 
-        return view('member.detailreservasi', [
+        return view('customer.detailreservasi', [
             'detail' => $payment->order,
             'total' => $total,
             'totalDenda' => $totalDenda,

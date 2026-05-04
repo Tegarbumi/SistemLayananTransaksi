@@ -62,7 +62,7 @@
                     @if (Auth::user()->role != 0)
                     <a class="btn btn-danger w-100 mt-2" href="{{ route('admin.index') }}">Kembali</a>
                     @else
-                    <a class="btn btn-danger w-100 mt-2" href="{{ route('member.index') }}">Kembali</a>
+                    <a class="btn btn-danger w-100 mt-2" href="{{ route('customer.index') }}">Kembali</a>
                     @endif
                 </div>
             </div>

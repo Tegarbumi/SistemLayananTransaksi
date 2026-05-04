@@ -176,7 +176,7 @@ Flyingfox, Paket Camping Terima Beres, dan lainnya.
 
 @if (Auth::check() && Auth::user()->role == 0)
 <div class="alert alert-warning">
-Anda telah login sebagai <b>{{ Auth::user()->name }}</b> <a class="btn btn-success" href="{{ route('member.index') }}">Mulai Menyewa</a>
+Anda telah login sebagai <b>{{ Auth::user()->name }}</b> <a class="btn btn-success" href="{{ route('customer.index') }}">Mulai Menyewa</a>
 </div>
 @elseif (Auth::check() && Auth::user()->role != 0)
 <div class="alert alert-warning">
@@ -288,7 +288,7 @@ Login untuk Reservasi
 
 @else
 
-<a href="{{ route('services.member') }}"
+<a href="{{ route('services.customer') }}"
 class="btn btn-success w-100">
 Pesan Sekarang
 </a>

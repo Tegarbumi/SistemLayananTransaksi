@@ -54,15 +54,15 @@
         </div>
     </div>
 
-    <!-- Penyewa -->
+    <!-- Customer -->
     <div class="col-xl-3 col-md-6 mb-3">
         <div class="card card-dashboard bg-penyewa shadow">
             <div class="card-body">
                 <h1>{{ $total_user }}</h1>
-                <div>Penyewa</div>
+                <div>Customer</div>
             </div>
             <div class="card-footer d-flex justify-content-between">
-                <a class="text-white" href="{{ route('admin.user') }}">Kelola Penyewa</a>
+                <a class="text-white" href="{{ route('admin.user') }}">Kelola Customer</a>
                 <i class="fas fa-angle-right"></i>
             </div>
         </div>

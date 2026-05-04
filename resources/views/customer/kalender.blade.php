@@ -1,4 +1,4 @@
-@extends('member.main')
+@extends('customer.main')
 @section('container')
 <div class="container">
     <div class="alert alert-primary">Menampilkan jadwal alat yang sedang disewakan</div>

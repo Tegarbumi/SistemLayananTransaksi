@@ -6,7 +6,7 @@
             <div class="card shadow">
                 <div class="card-body">
                     <div class="alert alert-warning">
-                        Ini merupakan halaman yang menampilkan reservasi yang sudah selesai
+                        Halaman reservasi yang sudah selesai
                     </div>
 
                     <table id="dataTable">
@@ -14,7 +14,7 @@
                             <tr>
                                 <th>No. Invoice</th>
                                 <th>Tanggal Reservasi</th>
-                                <th>User</th>
+                                <th>Customer</th>
                                 <th>Total</th>
                                 <th>Detail</th>
                             </tr>

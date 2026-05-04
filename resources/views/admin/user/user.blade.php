@@ -29,7 +29,7 @@
             <div class="card shadow mt-4">
 
                 <div class="card-header">
-                    <b>Penyewa</b>
+                    <b>Customer</b>
                 </div>
 
                 <div class="card-body">

@@ -11,7 +11,7 @@
                             <tr>
                                 <th>No. Invoice</th>
                                 <th>Tanggal Reservasi</th>
-                                <th>User</th>
+                                <th>Customer</th>
                                 <th>Total</th>
                                 <th>Detail</th>
                             </tr>

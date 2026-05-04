@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\Payment;
 
-class RentController extends Controller
+class ReservasiController extends Controller
 {
     // ================= PENYEWAAN AKTIF =================
     public function index() {

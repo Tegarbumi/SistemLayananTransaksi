@@ -20,10 +20,10 @@ class ServiceController extends Controller
         ]);
     }
 
-    public function memberIndex()
+    public function customerIndex()
 {
     $services = Service::all();
-    return view('member.services', compact('services'));
+    return view('customer.services', compact('services'));
 }
 
 

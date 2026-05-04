@@ -86,8 +86,8 @@ body{
 <ul class="navbar-nav ms-auto align-items-center">
 
 <li class="nav-item">
-<a class="nav-link {{ Route::is('member.index') ? 'active fw-bold' : '' }}"
-href="{{ route('member.index') }}">
+<a class="nav-link {{ Route::is('customer.index') ? 'active fw-bold' : '' }}"
+href="{{ route('customer.index') }}">
 <i class="fas fa-compass"></i> Explore
 </a>
 </li>
@@ -120,8 +120,8 @@ href="{{ route('order.show') }}">
 </li>
 
 <li class="nav-item">
-<a class="nav-link {{ Route::is('member.kalender') ? 'active fw-bold' : '' }}"
-href="{{ route('member.kalender') }}">
+<a class="nav-link {{ Route::is('customer.kalender') ? 'active fw-bold' : '' }}"
+href="{{ route('customer.kalender') }}">
 <i class="fas fa-calendar-alt"></i> Kalender
 </a>
 </li>

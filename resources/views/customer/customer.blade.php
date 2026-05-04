@@ -1,4 +1,4 @@
-@extends('member.main')
+@extends('customer.main')
 @section('container')
 
 @if (session()->has('success'))

@@ -15,8 +15,8 @@ use App\Http\Controllers\ServiceController;
 
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
-use App\Http\Controllers\RentController;
-use App\Http\Controllers\MemberController;
+use App\Http\Controllers\ReservasiController;
+use App\Http\Controllers\CustomerController;
 
 use App\Http\Controllers\DendaController;
 use App\Http\Controllers\PaymentController;
@@ -138,12 +138,12 @@ Route::middleware(['auth','admin'])->group(function () {
         |--------------------------------------------------------------------------
         */
 
-        Route::get('/penyewaan',[RentController::class,'index'])->name('penyewaan.index');
-        Route::get('/penyewaan/detail/{id}',[RentController::class,'detail'])->name('penyewaan.detail');
+        Route::get('/penyewaan',[ReservasiController::class,'index'])->name('penyewaan.index');
+        Route::get('/penyewaan/detail/{id}',[ReservasiController::class,'detail'])->name('penyewaan.detail');
 
-        Route::get('/riwayat-reservasi',[RentController::class,'riwayat'])->name('riwayat-reservasi');
+        Route::get('/riwayat-reservasi',[ReservasiController::class,'riwayat'])->name('riwayat-reservasi');
 
-        Route::delete('/cancel/{id}',[RentController::class,'destroy'])->name('admin.penyewaan.cancel');
+        Route::delete('/cancel/{id}',[ReservasiController::class,'destroy'])->name('admin.penyewaan.cancel');
 
 
         /*
@@ -201,17 +201,17 @@ Route::middleware(['auth','admin'])->group(function () {
 
 /*
 |--------------------------------------------------------------------------
-| MEMBER AREA
+| CUSTOMER AREA
 |--------------------------------------------------------------------------
 */
 
 Route::middleware('auth')->group(function() {
 
-    Route::get('/memberarea',[MemberController::class,'index'])->name('member.index');
+    Route::get('/customerarea',[CustomerController::class,'index'])->name('customer.index');
 
-    Route::get('/memberarea/kalender', function() {
-        return view('member.kalender');
-    })->name('member.kalender');
+    Route::get('/customerarea/kalender', function() {
+        return view('customer.kalender');
+    })->name('customer.kalender');
 
 
     /*
@@ -220,12 +220,12 @@ Route::middleware('auth')->group(function() {
     |--------------------------------------------------------------------------
     */
 
-    Route::post('/memberarea/store/{id}/{userId}',[CartController::class,'store'])->name('cart.store');
+    Route::post('/customerarea/store/{id}/{userId}',[CartController::class,'store'])->name('cart.store');
 
     // TAMBAHAN UNTUK LAYANAN
-    Route::post('/memberarea/service/{id}/{userId}',[CartController::class,'storeService'])->name('cart.service.store');
+    Route::post('/customerarea/service/{id}/{userId}',[CartController::class,'storeService'])->name('cart.service.store');
 
-    Route::delete('/memberarea/delete/{id}',[CartController::class,'destroy'])->name('cart.destroy');
+    Route::delete('/customerarea/delete/{id}',[CartController::class,'destroy'])->name('cart.destroy');
 
 
     /*
@@ -247,11 +247,11 @@ Route::middleware('auth')->group(function() {
 
     /*
     |--------------------------------------------------------------------------
-    | SERVICE MEMBER
+    | SERVICE CUSTOMER
     |--------------------------------------------------------------------------
     */
 
-    Route::get('/services',[ServiceController::class,'memberIndex'])->name('services.member');
+    Route::get('/services',[ServiceController::class,'customerIndex'])->name('services.customer');
 
 
     /*

@@ -9,7 +9,7 @@ use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class MemberController extends Controller
+class CustomerController extends Controller
 {
     public function index() {
 
@@ -31,7 +31,7 @@ class MemberController extends Controller
                 ->get();
         }
 
-        return view('member.member',[
+        return view('customer.customer',[
             'alat' => $alat,
             'services' => $services,
             'carts' => $carts->get(),

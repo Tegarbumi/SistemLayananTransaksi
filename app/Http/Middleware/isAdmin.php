@@ -20,7 +20,7 @@ class isAdmin
         if(Auth::user()->role != 0) {
             return $next($request);
         } else {
-            return redirect(route('member.index'));
+            return redirect(route('customer.index'));
         }
     }
 }
