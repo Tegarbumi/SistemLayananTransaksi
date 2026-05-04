@@ -126,7 +126,7 @@ href="{{ route('order.detail',['id' => $item->id]) }}">
 
 <p class="text-muted">Belum ada reservasi</p>
 
-<a href="{{ route('custtomer.index') }}" class="btn btn-success">
+<a href="{{ route('customer.index') }}" class="btn btn-success">
 Mulai Sekarang
 </a>
 
